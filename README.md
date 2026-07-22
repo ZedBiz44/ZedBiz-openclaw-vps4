@@ -33,7 +33,8 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 - [Rocky email client](scripts/11-install-rocky-email.sh)
 - [Rocky Asana PAT MCP](scripts/12-configure-rocky-asana-mcp.sh)
 - [Rocky Asana identity controls](scripts/13-install-rocky-asana-controls.sh)
+- [Rocky Telegram and Slack channels](scripts/14-configure-rocky-telegram-slack.sh)
 
 ## Current Status
 
-Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, device pairing, browser chat, shared-wiki sync, email inbox, PAT-backed Asana identity, virtual-assistant profile, and reboot recovery are verified. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).
+Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, device pairing, browser chat, shared-wiki sync, email inbox, PAT-backed Asana identity, Telegram bot probe, Slack Socket Mode connection, virtual-assistant profile, and reboot recovery are verified. Telegram and Slack still require human DM pairing and a visible reply test. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).

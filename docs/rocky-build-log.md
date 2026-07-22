@@ -85,6 +85,10 @@ Telegram and Slack remain later one-at-a-time human authorization gates. Outboun
 - Himalaya inbox listing: passed
 - Asana MCP probe: 41 tools, resources, and prompts with no diagnostics
 - Asana PAT identity: Rocky Zagent, user GID `1216804011183079`, workspace GID `11298561585567`
+- Telegram and Slack credentials were added to Rocky's 1Password vault. Native channel setup is implemented by `scripts/14-configure-rocky-telegram-slack.sh` and requires live channel probes plus human DM pairing before completion.
+- Slack Socket Mode probe passed as bot `rocky_slack` in workspace `Zedbiz`; both Slack credential sources reported available.
+- Telegram polling probe passed as `@rocky4z_bot`; the bot can join groups but Privacy Mode prevents reading all group messages.
+- Explicitly allowlisted the installed Slack plugin and trusted only the loopback reverse-tunnel endpoint for forwarded-client IP handling while retaining Gateway token authentication.
 - Secrets audit: no plaintext or unresolved SecretRefs; the expected xAI OAuth profile is reported as legacy OAuth residue because OAuth tokens are outside static SecretRef migration
 
 ## Tracking
