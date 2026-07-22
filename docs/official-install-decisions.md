@@ -19,6 +19,10 @@ date: 2026-07-22 | agent: Cody | status: Active
 - Add only one agent and one model route before channels and other integrations.
 - Put VPS1 Caddy in front through a private transport; never expose the Gateway port publicly.
 - Add the VPS1 shared Memory Wiki only after the base Gateway and model pass live verification.
+- Use OpenClaw's documented 1Password exec SecretRef method so OpenRouter credentials resolve in memory rather than being stored in `openclaw.json`.
+- Use two separately restricted SSH identities: one permits only the named reverse-forward listener, while the other is forced through read-only `rrsync`.
+- Use `rsync -rz` rather than archive mode because ownership preservation is neither required nor permitted for the read-only VPS1 wiki source.
+- Keep Caddy on VPS1. A small `socat` bridge exposes the reverse-tunnel listener only to Caddy's Docker gateway, not to the public network.
 
 ## Do Not Do
 
@@ -29,4 +33,3 @@ date: 2026-07-22 | agent: Cody | status: Active
 - Do not copy Hermes or Ruby authentication files into OpenClaw.
 - Do not store credentials in GitHub, Notion, logs, or SOP examples.
 - Do not run automatic repair commands without reviewing normal diagnostic output first.
-

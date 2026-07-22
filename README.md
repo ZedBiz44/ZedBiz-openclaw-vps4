@@ -25,4 +25,12 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 - [Official install decision record](docs/official-install-decisions.md)
 - [Server bootstrap script](scripts/01-bootstrap.sh)
 - [OpenClaw install script](scripts/02-install-openclaw.sh)
+- [Rocky onboarding and model policy](scripts/04-onboard-rocky.sh)
+- [Private VPS1 links](scripts/07-install-private-links.sh)
+- [VPS1 Caddy route](scripts/08-configure-vps1-caddy.sh)
+- [1Password-backed OpenRouter setup](scripts/09-configure-1password-openrouter.sh)
+- [Rocky identity and operating rules](scripts/10-personalize-rocky.sh)
 
+## Current Status
+
+Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy upstream, shared-wiki sync, identity, and reboot recovery are verified. Public HTTPS is waiting only for the `rocky.zbiz.ca` DNS record.
