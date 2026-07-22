@@ -30,7 +30,10 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 - [VPS1 Caddy route](scripts/08-configure-vps1-caddy.sh)
 - [1Password-backed OpenRouter setup](scripts/09-configure-1password-openrouter.sh)
 - [Rocky identity and operating rules](scripts/10-personalize-rocky.sh)
+- [Rocky email client](scripts/11-install-rocky-email.sh)
+- [Rocky Asana PAT MCP](scripts/12-configure-rocky-asana-mcp.sh)
+- [Rocky Asana identity controls](scripts/13-install-rocky-asana-controls.sh)
 
 ## Current Status
 
-Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, device pairing, browser chat, shared-wiki sync, identity, and reboot recovery are verified. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).
+Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, device pairing, browser chat, shared-wiki sync, email inbox, PAT-backed Asana identity, virtual-assistant profile, and reboot recovery are verified. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).

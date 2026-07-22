@@ -1,0 +1,25 @@
+[accounts.default]
+default = true
+email = "${EMAIL_ADDRESS}"
+display-name = "Rocky"
+
+folder.aliases.inbox = "INBOX"
+folder.aliases.sent = "INBOX.Sent"
+folder.aliases.drafts = "INBOX.Drafts"
+folder.aliases.trash = "INBOX.Trash"
+
+backend.type = "imap"
+backend.host = "mail.zbiz.ca"
+backend.port = 993
+backend.encryption.type = "tls"
+backend.login = "${EMAIL_ADDRESS}"
+backend.auth.type = "password"
+backend.auth.cmd = "/home/openclaw/bin/rocky-email-password"
+
+message.send.backend.type = "smtp"
+message.send.backend.host = "mail.zbiz.ca"
+message.send.backend.port = 465
+message.send.backend.encryption.type = "tls"
+message.send.backend.login = "${EMAIL_ADDRESS}"
+message.send.backend.auth.type = "password"
+message.send.backend.auth.cmd = "/home/openclaw/bin/rocky-email-password"

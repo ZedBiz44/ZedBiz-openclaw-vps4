@@ -52,10 +52,15 @@ Build Rocky as a single native OpenClaw agent on VPS4, verify it end to end, and
 - Sent a live browser-chat test through the public Control UI and received `ROCKY_PUBLIC_UI_OK` from Grok.
 - Rotated the Gateway token after a browser test artifact captured the previous value, removed the artifact, and reconnected successfully with the new token.
 - Corrected Rocky's stored email domain in 1Password to the valid `.ca` address and verified an authenticated IMAP login without exposing the password.
+- Installed the ZedBiz-standard Himalaya `1.2.0` client natively and verified Rocky can list his inbox with credentials resolved from 1Password at runtime.
+- Configured the PAT-backed `@roychri/mcp-server-asana` route as OpenClaw MCP server `asana` without storing the PAT in `openclaw.json`.
+- Verified the Asana MCP exposes 41 tools plus resources and prompts.
+- Verified the PAT identity as Rocky Zagent, `rocky@agents.zbiz.ca`, user GID `1216804011183079`, in ZedBiz workspace GID `11298561585567`.
+- Installed the ZedBiz Asana Agent Control skill and recorded Rocky's exact identity/GID routing rules in `AGENTS.md` and `TOOLS.md`.
 
 ## Current Gate
 
-Create Rocky's Asana identity with the verified Rocky email address, grant the intended ZedBiz workspace access, and store Rocky's Asana PAT in the `agent-rocky` 1Password vault. Telegram and Slack remain later one-at-a-time human authorization gates.
+Telegram and Slack remain later one-at-a-time human authorization gates. Outbound email is configured but still needs an explicitly approved recipient/message test before it is marked send-verified.
 
 ## Verified Model Policy
 
@@ -77,6 +82,9 @@ Create Rocky's Asana identity with the verified Rocky email address, grant the i
 - Public Control UI: `https://rocky.zbiz.ca` returned HTTP 200 with a trusted certificate
 - Public browser/Grok test: `ROCKY_PUBLIC_UI_OK`
 - Rocky email credentials: authenticated IMAP login passed
+- Himalaya inbox listing: passed
+- Asana MCP probe: 41 tools, resources, and prompts with no diagnostics
+- Asana PAT identity: Rocky Zagent, user GID `1216804011183079`, workspace GID `11298561585567`
 - Secrets audit: no plaintext or unresolved SecretRefs; the expected xAI OAuth profile is reported as legacy OAuth residue because OAuth tokens are outside static SecretRef migration
 
 ## Tracking
