@@ -33,4 +33,4 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 
 ## Current Status
 
-Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy upstream, shared-wiki sync, identity, and reboot recovery are verified. Public HTTPS is waiting only for the `rocky.zbiz.ca` DNS record.
+Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, device pairing, browser chat, shared-wiki sync, identity, and reboot recovery are verified. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).

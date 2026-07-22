@@ -45,10 +45,17 @@ Build Rocky as a single native OpenClaw agent on VPS4, verify it end to end, and
 - Added Rocky's identity, Jack's working profile, and virtual-assistant operating rules.
 - Rebooted VPS4 and verified automatic recovery of the Gateway, tunnel, wiki timer, swap, and Mountain Time setting.
 - Re-tested Grok, OpenRouter, Gateway health, and the VPS1 Caddy upstream after reboot.
+- Verified public DNS for `rocky.zbiz.ca` points to VPS1 Caddy.
+- Obtained and verified a trusted Let's Encrypt certificate for `rocky.zbiz.ca`.
+- Added the narrow VPS1 UFW rule required for Caddy's private Docker subnet to reach only the Rocky bridge port.
+- Completed OpenClaw's one-time browser device pairing and verified the authenticated public WebSocket connection.
+- Sent a live browser-chat test through the public Control UI and received `ROCKY_PUBLIC_UI_OK` from Grok.
+- Rotated the Gateway token after a browser test artifact captured the previous value, removed the artifact, and reconnected successfully with the new token.
+- Corrected Rocky's stored email domain in 1Password to the valid `.ca` address and verified an authenticated IMAP login without exposing the password.
 
 ## Current Gate
 
-Create the public DNS record `rocky.zbiz.ca` pointing to the VPS1 Caddy server. After DNS resolves, verify Caddy's public TLS certificate and Rocky's Control UI. Telegram, Slack, email, and Asana remain later one-at-a-time human authorization gates.
+Create Rocky's Asana identity with the verified Rocky email address, grant the intended ZedBiz workspace access, and store Rocky's Asana PAT in the `agent-rocky` 1Password vault. Telegram and Slack remain later one-at-a-time human authorization gates.
 
 ## Verified Model Policy
 
@@ -67,6 +74,9 @@ Create the public DNS record `rocky.zbiz.ca` pointing to the VPS1 Caddy server. 
 - VPS1 Caddy bridge HTTP status: `200`
 - Gateway event loop: healthy
 - Shared wiki tree hash: matched on both servers
+- Public Control UI: `https://rocky.zbiz.ca` returned HTTP 200 with a trusted certificate
+- Public browser/Grok test: `ROCKY_PUBLIC_UI_OK`
+- Rocky email credentials: authenticated IMAP login passed
 - Secrets audit: no plaintext or unresolved SecretRefs; the expected xAI OAuth profile is reported as legacy OAuth residue because OAuth tokens are outside static SecretRef migration
 
 ## Tracking
