@@ -60,7 +60,7 @@ Build Rocky as a single native OpenClaw agent on VPS4, verify it end to end, and
 
 ## Current Gate
 
-Telegram and Slack remain later one-at-a-time human authorization gates. Outbound email is configured but still needs an explicitly approved recipient/message test before it is marked send-verified.
+Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound Slack replies are verified. Telegram is connected and inbound DMs are verified; a final human-visible outbound Telegram reply still needs confirmation. Outbound email is configured but still needs an explicitly approved recipient/message test before it is marked send-verified.
 
 ## Verified Model Policy
 
@@ -85,11 +85,15 @@ Telegram and Slack remain later one-at-a-time human authorization gates. Outboun
 - Himalaya inbox listing: passed
 - Asana MCP probe: 41 tools, resources, and prompts with no diagnostics
 - Asana PAT identity: Rocky Zagent, user GID `1216804011183079`, workspace GID `11298561585567`
-- Telegram and Slack credentials were added to Rocky's 1Password vault. Native channel setup is implemented by `scripts/14-configure-rocky-telegram-slack.sh` and requires live channel probes plus human DM pairing before completion.
+- Telegram and Slack credentials were added to Rocky's 1Password vault. Native channel setup is implemented by `scripts/14-configure-rocky-telegram-slack.sh`.
 - Slack Socket Mode probe passed as bot `rocky_slack` in workspace `Zedbiz`; both Slack credential sources reported available.
 - Telegram polling probe passed as `@rocky4z_bot`; the bot can join groups but Privacy Mode prevents reading all group messages.
 - Explicitly allowlisted the installed Slack plugin and trusted only the loopback reverse-tunnel endpoint for forwarded-client IP handling while retaining Gateway token authentication.
 - Secrets audit: no plaintext or unresolved SecretRefs; the expected xAI OAuth profile is reported as legacy OAuth residue because OAuth tokens are outside static SecretRef migration
+- Slack App Home initially had its Messages tab in read-only mode. Enabling messages allowed Jack to type to Rocky.
+- Slack initially did not forward DMs because the app was missing the `message.im` bot event. Enabling Event Subscriptions with `app_mention` and `message.im` restored inbound delivery.
+- Live Slack logs then confirmed three replies delivered to Rocky's direct-message channel on 2026-07-22 MDT.
+- Approved a new one-time Control UI browser device request after the Gateway restart and verified the browser was registered as an operator device.
 
 ## Tracking
 

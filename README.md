@@ -37,4 +37,4 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 
 ## Current Status
 
-Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, device pairing, browser chat, shared-wiki sync, email inbox, PAT-backed Asana identity, Telegram bot probe, Slack Socket Mode connection, virtual-assistant profile, and reboot recovery are verified. Telegram and Slack still require human DM pairing and a visible reply test. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).
+Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, browser device pairing, browser chat, shared-wiki sync, email inbox, PAT-backed Asana identity, Telegram bot connection and inbound delivery, Slack Socket Mode connection and two-way DM delivery, virtual-assistant profile, and reboot recovery are verified. Telegram still needs a final human-visible outbound reply confirmation. Outbound email still needs an explicitly approved recipient/message test. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).
