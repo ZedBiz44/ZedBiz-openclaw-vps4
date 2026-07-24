@@ -23,6 +23,11 @@ date: 2026-07-22 | agent: Cody | status: Active
 - Use two separately restricted SSH identities: one permits only the named reverse-forward listener, while the other is forced through read-only `rrsync`.
 - Use `rsync -rz` rather than archive mode because ownership preservation is neither required nor permitted for the read-only VPS1 wiki source.
 - Keep Caddy on VPS1. A small `socat` bridge exposes the reverse-tunnel listener only to Caddy's Docker gateway, not to the public network.
+- Keep the VPS1 Shared Memory Wiki as the reviewed, authoritative agent-knowledge layer and give Rocky read-only access through the canonical ZedBiz routing and research skills.
+- Use Hindsight as Rocky's conversational working-memory layer, with automatic retention and recall, while preserving existing Markdown and SQLite memory files.
+- Use dynamic Hindsight banks scoped by agent, channel, and user so a stable channel identity does not share conversational recall with another user.
+- Run Hindsight locally on VPS4 and resolve its extraction model through Rocky's existing 1Password-backed OpenRouter SecretRef.
+- Backfill historical OpenClaw sessions once, record the checkpoint, and verify recall after both a new-session reset and a full server reboot.
 
 ## Do Not Do
 

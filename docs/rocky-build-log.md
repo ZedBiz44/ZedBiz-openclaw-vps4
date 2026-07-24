@@ -57,6 +57,14 @@ Build Rocky as a single native OpenClaw agent on VPS4, verify it end to end, and
 - Verified the Asana MCP exposes 41 tools plus resources and prompts.
 - Verified the PAT identity as Rocky Zagent, `rocky@agents.zbiz.ca`, user GID `1216804011183079`, in ZedBiz workspace GID `11298561585567`.
 - Installed the ZedBiz Asana Agent Control skill and recorded Rocky's exact identity/GID routing rules in `AGENTS.md` and `TOOLS.md`.
+- Installed the canonical `zedbiz-knowledge-routing` and `zedbiz-wiki-research` skills and added Rocky's explicit wiki/memory routing rules.
+- Verified a live Rocky agent turn found the Meow Apps source in the synchronized Shared Memory Wiki with seven successful tool calls and no write to the read-only copy.
+- Installed `@vectorize-io/hindsight-openclaw` `0.9.0` as Rocky's active memory provider with embedded Hindsight API `0.8.5`.
+- Installed pinned `uv` `0.11.31` for the local Hindsight runtime and kept the extraction-model credential behind Rocky's existing 1Password OpenRouter SecretRef.
+- Configured dynamic memory banks by agent, channel, and user; automatic retain/recall; manual knowledge tools; controlled labels; observations; and consolidation.
+- Verified new-chat recall by retaining `CANYON-PINE-7429`, restarting the Gateway, resetting with `/new`, and recalling the code from a different session ID.
+- Backfilled all ten non-empty historical Rocky sessions; eleven empty sessions were skipped and zero imports failed.
+- Rebooted VPS4 and verified Hindsight, PostgreSQL, Gateway, Slack, Telegram, wiki synchronization, and public HTTPS recovered automatically.
 
 ## Current Gate
 
@@ -94,6 +102,11 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Slack initially did not forward DMs because the app was missing the `message.im` bot event. Enabling Event Subscriptions with `app_mention` and `message.im` restored inbound delivery.
 - Live Slack logs then confirmed three replies delivered to Rocky's direct-message channel on 2026-07-22 MDT.
 - Approved a new one-time Control UI browser device request after the Gateway restart and verified the browser was registered as an operator device.
+- OpenClaw reports both ZedBiz wiki skills as ready; the live wiki test returned `WIKI_SKILL_OK`.
+- Hindsight health returned `{"status":"healthy","database":"connected"}` and the plugin loaded as version `0.9.0`.
+- Hindsight's Rocky bank contained 44 facts, 11 observations, no pending operations, and no failed operations after backfill.
+- The backfill checkpoint recorded ten completed sessions and zero failed sessions.
+- After a full VPS reboot, a new Rocky session again recalled `CANYON-PINE-7429`; public HTTPS returned HTTP 200 with a valid certificate.
 
 ## Tracking
 

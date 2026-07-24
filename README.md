@@ -34,7 +34,9 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 - [Rocky Asana PAT MCP](scripts/12-configure-rocky-asana-mcp.sh)
 - [Rocky Asana identity controls](scripts/13-install-rocky-asana-controls.sh)
 - [Rocky Telegram and Slack channels](scripts/14-configure-rocky-telegram-slack.sh)
+- [Rocky ZedBiz wiki skills](scripts/15-install-rocky-wiki-skills.sh)
+- [Rocky Hindsight memory](scripts/16-install-rocky-hindsight.sh)
 
 ## Current Status
 
-Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, browser device pairing, browser chat, shared-wiki sync, email inbox, PAT-backed Asana identity, Telegram bot connection and inbound delivery, Slack Socket Mode connection and two-way DM delivery, virtual-assistant profile, and reboot recovery are verified. Telegram still needs a final human-visible outbound reply confirmation. Outbound email still needs an explicitly approved recipient/message test. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).
+Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, browser device pairing, browser chat, shared-wiki sync, ZedBiz wiki-research skills, Hindsight conversational memory, email inbox, PAT-backed Asana identity, Telegram bot connection and inbound delivery, Slack Socket Mode connection and two-way DM delivery, virtual-assistant profile, and reboot recovery are verified. Hindsight automatically retains and recalls Rocky's conversations through isolated dynamic banks, and Rocky's historical non-empty sessions have been backfilled. Telegram still needs a final human-visible outbound reply confirmation. Outbound email still needs an explicitly approved recipient/message test. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).
