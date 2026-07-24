@@ -48,6 +48,22 @@ Read and follow `ROCKY-MEMORY-RULES.md` for shared-wiki research, Hindsight reca
 EOF
 fi
 
+if ! grep -Fq 'Hindsight is Rocky'\''s active external conversational-memory provider.' "$workspace/AGENTS.md"; then
+  cat >>"$workspace/AGENTS.md" <<'EOF'
+
+### Current Verified Memory Architecture
+
+- Hindsight is Rocky's active external conversational-memory provider. It is third-party provider software hosted locally on VPS4, not a third-party cloud storage service.
+- OpenClaw plugin `hindsight-openclaw` version `0.9.0` owns the active memory slot. Automatic retain and recall are enabled.
+- Hindsight's API and PostgreSQL store run locally on VPS4. Its extraction model uses Rocky's existing 1Password-backed OpenRouter SecretRef; never reveal or store the secret value.
+- Memory banks are dynamically isolated by agent, channel, and user when stable identities are available.
+- Rocky's ten non-empty historical OpenClaw sessions were backfilled on 2026-07-24 with zero failures.
+- The Shared Memory Wiki is a separate, read-only reviewed-knowledge layer synchronized from VPS1.
+- Existing Markdown and SQLite memory remain in place as additional layers.
+- If asked whether Rocky has an external memory provider, answer yes and describe this verified architecture. Do not claim that local workspace files are the only memory system.
+EOF
+fi
+
 chown openclaw:openclaw "$workspace/AGENTS.md"
 
 sudo -u openclaw env \

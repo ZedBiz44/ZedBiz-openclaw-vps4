@@ -107,6 +107,8 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Hindsight's Rocky bank contained 44 facts, 11 observations, no pending operations, and no failed operations after backfill.
 - The backfill checkpoint recorded ten completed sessions and zero failed sessions.
 - After a full VPS reboot, a new Rocky session again recalled `CANYON-PINE-7429`; public HTTPS returned HTTP 200 with a valid certificate.
+- A Telegram self-description test exposed an instruction-loading gap: Rocky's always-loaded `AGENTS.md` only pointed to `ROCKY-MEMORY-RULES.md`, so Grok guessed that local workspace files were the only memory layer even though Hindsight injected context correctly.
+- Corrected the gap by placing the verified Hindsight architecture directly in `AGENTS.md`, invalidating only the false retained answer, and seeding the corrected architecture in Jack's isolated Telegram bank.
 
 ## Tracking
 
