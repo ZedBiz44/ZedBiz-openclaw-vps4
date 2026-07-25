@@ -36,9 +36,22 @@ Before reporting success, read the helper's output and report the exact title,
 page ID, and URL it returned. Never claim that a requested page was written
 unless those values match the requested target.
 
+For an item that Rocky previously appended to the wrong approved page, use the
+logged relocate action only after Jack explicitly asks Rocky to move it:
+
+```bash
+/home/openclaw/bin/rocky-notion-write relocate <source-page> <target-page> \
+  "<exact text>" --source "Jack" --approved-by "Jack"
+```
+
+The source and target must be in the same approved root tree. The helper
+requires exactly one matching source paragraph, verifies the exact target
+paragraph, archives only that matching source block, and logs the relocation.
+
 ## Safety
 
-- Do not delete pages or blocks.
+- Do not delete pages. Do not archive blocks except through the approved
+  `relocate` action after Jack explicitly asks to move that exact item.
 - Do not change database schemas.
 - Do not perform mass or bulk updates.
 - Do not write outside the six approved root-page trees.

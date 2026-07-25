@@ -68,7 +68,7 @@ Build Rocky as a single native OpenClaw agent on VPS4, verify it end to end, and
 
 ## Current Gate
 
-Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound Slack replies are verified. Telegram is connected and inbound DMs are verified; a final human-visible outbound Telegram reply still needs confirmation. Outbound email is configured but still needs an explicitly approved recipient/message test before it is marked send-verified.
+Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound Slack replies are verified. Telegram inbound and human-visible outbound DMs are verified. Outbound email is configured but still needs an explicitly approved recipient/message test before it is marked send-verified.
 
 ## Verified Model Policy
 
@@ -117,6 +117,15 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Enhanced the helper to allow direct page URLs/IDs only when their verified ancestor chain reaches an approved root, verify the exact appended block, and report the actual destination ID/URL.
 - Relocated the Skill Creation SOP summary into the requested `summary` child page, removed the misplaced parent paragraph after verification, and logged the correction.
 - Proved an out-of-zone target fails before writing and a fresh Rocky session preserves the exact supplied child-page URL.
+- Repaired the remaining ongoing-session gap after Rocky again substituted the
+  `va-team` parent for Jack's linked `Chad` child page.
+- Promoted exact child-page routing into Rocky's always-loaded `AGENTS.md` and
+  added a narrowly approved, same-tree `relocate` operation.
+- Rocky personally relocated the exact Chad Eljisr paragraph in his active
+  Telegram session. Independent Notion reads verified the child content, the
+  parent cleanup, and the Rocky write-log entry.
+- Corrected Notion URL parsing for titled URLs ending in hexadecimal-looking
+  characters such as `Chad`; exact `Chad` and `summary` URLs now parse correctly.
 - Corrected the gap by placing the verified Hindsight architecture directly in `AGENTS.md`, invalidating only the false retained answer, and seeding the corrected architecture in Jack's isolated Telegram bank.
 
 ## Tracking

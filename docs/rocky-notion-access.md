@@ -49,10 +49,12 @@ surface.
 - 1Password item: `notion-api-key-Rocky`
 - Secret field reference: `op://agent-rocky/notion-api-key-Rocky/credential`
 
-The helper supports access verification and one-page append. An append target
+The helper supports access verification, one-page append, and a narrow
+same-tree relocation for correcting Rocky's own misplaced paragraph. An append target
 can be an approved root alias or a direct page URL/ID whose parent chain is
 inside one of the six approved roots. It does not support deletes, block
-removal, page moves, database schema changes, or mass updates.
+removal outside the explicitly approved relocate action, page moves, database
+schema changes, or mass updates.
 
 ## Approved Pages
 
@@ -129,3 +131,25 @@ Regression proof:
   and would not substitute `va-team`.
 - Runtime backup:
   `/home/openclaw/.openclaw/backups/notion-target-fix-20260724T182543-0600`
+
+## Chad Child-Page Incident And Repair
+
+At 18:31 MDT, Rocky again substituted the `va-team` alias while handling a
+request for the child page `Chad`. The helper already accepted child pages, but
+Rocky's ongoing Telegram session answered from the earlier alias-only belief
+without reading the updated skill.
+
+Repair:
+
+- The exact user-supplied URL rule is now part of Rocky's always-loaded
+  `AGENTS.md`, not only the on-demand skill.
+- The helper now includes a narrow `relocate` action for Rocky's own misplaced
+  paragraph. It requires Jack's explicit approval, keeps source and target
+  inside the same approved tree, requires one exact source match, verifies the
+  target, archives only that source block, and logs the operation.
+- Rocky executed the relocation himself in the active Telegram session.
+- Independent Notion fetches verified the summary on `Chad`, its absence from
+  `VA-Team-Notion-Edits`, and the successful Rocky relocation log entry.
+- URL parsing now takes the final 32 hexadecimal characters from the Notion
+  path segment. This prevents titles ending in hexadecimal-looking characters,
+  such as `Chad`, from shifting the extracted page ID.
