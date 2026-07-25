@@ -7,6 +7,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -76,6 +77,8 @@ def paragraph(text: str) -> dict:
 
 
 def append_text(token: str, page_id: str, text: str) -> dict:
+    if len(text) > 2000:
+        raise NotionError("Append text exceeds Notion's 2,000-character rich-text limit")
     return request(
         token,
         "PATCH",
@@ -88,12 +91,66 @@ def mountain_timestamp() -> str:
     return dt.datetime.now(ZoneInfo("America/Edmonton")).isoformat(timespec="seconds")
 
 
+def normalize_page_id(value: str) -> str:
+    matches = re.findall(r"(?i)[0-9a-f]{32}", value.replace("-", ""))
+    if not matches:
+        raise NotionError("Target must be an approved alias, Notion page URL, or page ID")
+    raw = matches[-1].lower()
+    return f"{raw[:8]}-{raw[8:12]}-{raw[12:16]}-{raw[16:20]}-{raw[20:]}"
+
+
+def page_title(page: dict) -> str:
+    for prop in page.get("properties", {}).values():
+        if prop.get("type") != "title":
+            continue
+        title = "".join(item.get("plain_text", "") for item in prop.get("title", []))
+        if title:
+            return title
+    return "(untitled)"
+
+
+def resolve_target(token: str, config: dict, target: str) -> tuple[str, str, str]:
+    if target in config["pages"]:
+        item = config["pages"][target]
+        return target, item["id"], item["title"]
+
+    target_id = normalize_page_id(target)
+    target_page = request(token, "GET", f"/pages/{target_id}")
+    roots = {item["id"]: alias for alias, item in config["pages"].items()}
+    current = target_page
+
+    for _ in range(12):
+        current_id = current["id"]
+        if current_id in roots:
+            return roots[current_id], target_id, page_title(target_page)
+        parent = current.get("parent", {})
+        if parent.get("type") != "page_id":
+            break
+        current = request(token, "GET", f"/pages/{parent['page_id']}")
+
+    raise NotionError(
+        "Target is outside the six approved VA edit-page trees; no write attempted"
+    )
+
+
+def verify_block_text(token: str, block_id: str, expected: str) -> None:
+    block = request(token, "GET", f"/blocks/{block_id}")
+    block_type = block.get("type")
+    rich_text = block.get(block_type, {}).get("rich_text", [])
+    actual = "".join(item.get("plain_text", "") for item in rich_text)
+    if actual != expected:
+        raise NotionError(
+            f"Appended block verification failed for block {block_id}"
+        )
+
+
 def log_attempt(
     token: str,
     config: dict,
     *,
     source: str,
-    alias: str,
+    root_alias: str,
+    target_title: str,
     target_id: str,
     summary: str,
     status: str,
@@ -106,8 +163,8 @@ def log_attempt(
         f"Date/time: {mountain_timestamp()}",
         "Agent: Rocky",
         f"Request source: {source}",
-        f"VA area: {alias}",
-        f"Target: {config['pages'][alias]['title']}",
+        f"VA area: {root_alias}",
+        f"Target: {target_title}",
         f"Target ID: {target_id}",
         "Action: append",
         f"Summary: {safe_summary}",
@@ -137,21 +194,20 @@ def command_access(token: str, config: dict) -> int:
 
 
 def command_append(token: str, config: dict, args: argparse.Namespace) -> int:
-    if args.alias not in config["pages"]:
-        allowed = ", ".join(sorted(config["pages"]))
-        raise NotionError(f"Target is not approved. Allowed aliases: {allowed}")
-
-    target = config["pages"][args.alias]
+    root_alias, target_id, target_title = resolve_target(
+        token, config, args.target
+    )
     try:
-        append_text(token, target["id"], args.text)
+        appended = append_text(token, target_id, args.text)
     except NotionError as exc:
         try:
             log_attempt(
                 token,
                 config,
                 source=args.source,
-                alias=args.alias,
-                target_id=target["id"],
+                root_alias=root_alias,
+                target_title=target_title,
+                target_id=target_id,
                 summary=args.text,
                 status="failed",
                 verification="target write failed",
@@ -162,14 +218,19 @@ def command_append(token: str, config: dict, args: argparse.Namespace) -> int:
         raise
 
     try:
-        request(token, "GET", f"/pages/{target['id']}")
-        verification = "target page fetched after append"
+        results = appended.get("results", [])
+        if len(results) != 1 or not results[0].get("id"):
+            raise NotionError("Notion did not return the appended block ID")
+        block_id = results[0]["id"]
+        verify_block_text(token, block_id, args.text)
+        verification = f"exact appended block verified: {block_id}"
         log_attempt(
             token,
             config,
             source=args.source,
-            alias=args.alias,
-            target_id=target["id"],
+            root_alias=root_alias,
+            target_title=target_title,
+            target_id=target_id,
             summary=args.text,
             status="success",
             verification=verification,
@@ -180,7 +241,12 @@ def command_append(token: str, config: dict, args: argparse.Namespace) -> int:
             f"{exc}"
         ) from exc
 
-    print(f"append successful: {target['title']}; write logged")
+    canonical_url = f"https://app.notion.com/p/{target_id.replace('-', '')}"
+    print(
+        "append successful: "
+        f"title={target_title} id={target_id} url={canonical_url} "
+        f"approved_root={root_alias}; exact block verified; write logged"
+    )
     return 0
 
 
@@ -197,7 +263,10 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("access", help="Verify access to every approved page and log")
 
     append_parser = subparsers.add_parser("append", help="Append text to an approved page")
-    append_parser.add_argument("alias")
+    append_parser.add_argument(
+        "target",
+        help="Approved alias or a descendant Notion page URL/ID",
+    )
     append_parser.add_argument("text")
     append_parser.add_argument("--source", default="Jack")
     return parser

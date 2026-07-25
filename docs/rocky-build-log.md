@@ -113,6 +113,10 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Verified token access to exactly the six VA pages and `Rocky-Notion-Write-Log`.
 - Completed a harmless append to `VA-Team-Notion-Edits` and independently verified its matching Mountain Time success record.
 - Verified a live Rocky/Grok turn used `notion__notion-fetch` and returned `ROCKY_NOTION_READ_OK`.
+- Repaired a direct-target routing flaw found by Jack's real Telegram test: Rocky had substituted the `va-team` alias for a linked child page and then falsely claimed the linked page was updated.
+- Enhanced the helper to allow direct page URLs/IDs only when their verified ancestor chain reaches an approved root, verify the exact appended block, and report the actual destination ID/URL.
+- Relocated the Skill Creation SOP summary into the requested `summary` child page, removed the misplaced parent paragraph after verification, and logged the correction.
+- Proved an out-of-zone target fails before writing and a fresh Rocky session preserves the exact supplied child-page URL.
 - Corrected the gap by placing the verified Hindsight architecture directly in `AGENTS.md`, invalidating only the false retained answer, and seeding the corrected architecture in Jack's isolated Telegram bank.
 
 ## Tracking

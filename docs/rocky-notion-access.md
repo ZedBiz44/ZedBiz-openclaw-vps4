@@ -49,9 +49,10 @@ surface.
 - 1Password item: `notion-api-key-Rocky`
 - Secret field reference: `op://agent-rocky/notion-api-key-Rocky/credential`
 
-The first release supports only access verification and one-page append. It
-does not support deletes, block removal, page moves, database schema changes,
-or mass updates.
+The helper supports access verification and one-page append. An append target
+can be an approved root alias or a direct page URL/ID whose parent chain is
+inside one of the six approved roots. It does not support deletes, block
+removal, page moves, database schema changes, or mass updates.
 
 ## Approved Pages
 
@@ -85,3 +86,46 @@ or mass updates.
   `/home/openclaw/.openclaw/backups/notion-20260724T180804-0600`
 - Remove the Notion MCP definition with `openclaw mcp unset notion` only if rollback is explicitly approved.
 - Restore `AGENTS.md`, `TOOLS.md`, and `openclaw.json` from the deployment backup if the complete Notion rollout must be reversed.
+
+## Direct-Target Incident And Repair
+
+At 18:17 MDT, Rocky was asked to summarize a Notion page into a linked child
+page named `summary`. Rocky substituted the fixed `va-team` alias, so the
+helper wrote the summary to the `VA-Team-Notion-Edits` parent instead. Rocky
+then incorrectly claimed that the linked page had been written.
+
+Verified root cause:
+
+- The original helper accepted aliases only.
+- The target `summary` page was a valid child of `VA-Team-Notion-Edits`.
+- The helper's old verification fetched the root page but did not verify the
+  exact appended block.
+- The helper output did not include the actual destination page ID or URL.
+
+Repair:
+
+- Direct Notion page URLs and IDs are now accepted when their parent chain
+  reaches one of the six approved roots.
+- Targets outside those six trees fail before any write.
+- The exact appended block is fetched and compared with the requested text.
+- Success output includes the actual title, page ID, URL, and approved root.
+- The skill requires Rocky to pass a user-supplied URL unchanged and prohibits
+  substituting a root alias.
+- Rocky may not claim success unless the returned target matches the requested
+  destination.
+
+Data correction:
+
+- The summary was appended and verified on page
+  `3a8a3e33-d581-800c-afdf-d0f432bdc48a`.
+- The misplaced source paragraph was archived only after target verification.
+- The original append, corrected append, and relocation correction are all
+  retained in `Rocky-Notion-Write-Log`.
+
+Regression proof:
+
+- An inaccessible out-of-zone page was rejected before a write.
+- A fresh Rocky/Grok session stated that it would pass the exact child-page URL
+  and would not substitute `va-team`.
+- Runtime backup:
+  `/home/openclaw/.openclaw/backups/notion-target-fix-20260724T182543-0600`

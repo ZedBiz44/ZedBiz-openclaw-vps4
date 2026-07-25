@@ -17,28 +17,33 @@ description: Read ZedBiz Notion through the read-only Rocky MCP tool surface and
 The helper currently supports only:
 
 ```bash
-/home/openclaw/bin/rocky-notion-write append <alias> "<text>" --source "<requester>"
+/home/openclaw/bin/rocky-notion-write append <target> "<text>" --source "<requester>"
 ```
 
-Approved aliases:
+`<target>` can be:
 
-- `shaira`
-- `john`
-- `mark`
-- `paul`
-- `jasmin`
-- `va-team`
+- An approved root alias: `shaira`, `john`, `mark`, `paul`, `jasmin`, or
+  `va-team`.
+- A Notion page URL or page ID whose parent chain is inside one of those six
+  approved roots.
 
-The helper enforces the page ID allowlist and creates a matching entry in
-`Rocky-Notion-Write-Log`. A write is not considered complete unless the log
-entry succeeds.
+When the user supplies a page URL, pass that exact URL to the helper. Never
+replace it with a root alias. The helper validates the page's ancestry,
+verifies the exact appended block, and creates a matching entry in
+`Rocky-Notion-Write-Log`.
+
+Before reporting success, read the helper's output and report the exact title,
+page ID, and URL it returned. Never claim that a requested page was written
+unless those values match the requested target.
 
 ## Safety
 
 - Do not delete pages or blocks.
 - Do not change database schemas.
 - Do not perform mass or bulk updates.
-- Do not write outside the approved aliases.
+- Do not write outside the six approved root-page trees.
+- Fail closed if a direct page cannot be proven to descend from an approved
+  root.
 - Ask Jack before adding a new write operation or approved target.
 - If the helper reports that the target write succeeded but logging failed,
   tell Jack exactly that; do not repeat the target write.
