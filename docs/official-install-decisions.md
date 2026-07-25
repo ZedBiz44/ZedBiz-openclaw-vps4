@@ -25,6 +25,8 @@ date: 2026-07-22 | agent: Cody | status: Active
 - Keep Caddy on VPS1. A small `socat` bridge exposes the reverse-tunnel listener only to Caddy's Docker gateway, not to the public network.
 - Keep the VPS1 Shared Memory Wiki as the reviewed, authoritative agent-knowledge layer and give Rocky read-only access through the canonical ZedBiz routing and research skills.
 - Use Hindsight as Rocky's conversational working-memory layer, with automatic retention and recall, while preserving existing Markdown and SQLite memory files.
+- Use Notion OAuth/MCP only through an OpenClaw read-only tool filter.
+- Resolve Rocky's internal Notion integration token from 1Password at runtime and permit writes only through a logged page-ID allowlist helper.
 - Use dynamic Hindsight banks scoped by agent, channel, and user so a stable channel identity does not share conversational recall with another user.
 - Run Hindsight locally on VPS4 and resolve its extraction model through Rocky's existing 1Password-backed OpenRouter SecretRef.
 - Backfill historical OpenClaw sessions once, record the checkpoint, and verify recall after both a new-session reset and a full server reboot.

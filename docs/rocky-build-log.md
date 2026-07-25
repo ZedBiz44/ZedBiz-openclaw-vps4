@@ -108,6 +108,11 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - The backfill checkpoint recorded ten completed sessions and zero failed sessions.
 - After a full VPS reboot, a new Rocky session again recalled `CANYON-PINE-7429`; public HTTPS returned HTTP 200 with a valid certificate.
 - A Telegram self-description test exposed an instruction-loading gap: Rocky's always-loaded `AGENTS.md` only pointed to `ROCKY-MEMORY-RULES.md`, so Grok guessed that local workspace files were the only memory layer even though Hindsight injected context correctly.
+- Configured Rocky's native OpenClaw Notion MCP server with OAuth and filtered the exposed surface to read-only tools.
+- Installed a Rocky-specific Notion write helper that resolves the internal integration token from 1Password, enforces the six approved VA page IDs, and requires a matching write-log entry.
+- Verified token access to exactly the six VA pages and `Rocky-Notion-Write-Log`.
+- Completed a harmless append to `VA-Team-Notion-Edits` and independently verified its matching Mountain Time success record.
+- Verified a live Rocky/Grok turn used `notion__notion-fetch` and returned `ROCKY_NOTION_READ_OK`.
 - Corrected the gap by placing the verified Hindsight architecture directly in `AGENTS.md`, invalidating only the false retained answer, and seeding the corrected architecture in Jack's isolated Telegram bank.
 
 ## Tracking
