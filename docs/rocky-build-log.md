@@ -127,6 +127,22 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Corrected Notion URL parsing for titled URLs ending in hexadecimal-looking
   characters such as `Chad`; exact `Chad` and `summary` URLs now parse correctly.
 - Corrected the gap by placing the verified Hindsight architecture directly in `AGENTS.md`, invalidating only the false retained answer, and seeding the corrected architecture in Jack's isolated Telegram bank.
+- Diagnosed Rocky's denied-destination Telegram hang: he repeated the same
+  first-page Notion database-view call 44 times, ignored pagination, and never
+  reached the write helper.
+- Removed the problematic database-view tool from Rocky's exposed Notion MCP
+  surface and restarted the Gateway to clear the guarded Telegram lane.
+- Added destination preflight, graceful denied-location messaging, relevant
+  approved-destination recommendations, explicit acceptance before writing,
+  targeted Notion lookup limits, controlled text working copies, and exact
+  single-paragraph replacement.
+- Verified a fresh Dan Kennedy request completed the research with four tool
+  calls, made no unauthorized write, recommended an approved alternative, and
+  waited for confirmation.
+- Verified Rocky created and edited
+  `Rocky-Controlled-Copy-Proof-2026-07-24` under
+  `VA-Team-Notion-Edits`; independent Notion reads confirmed the outside `Dan`
+  page remained empty and all denial/create/edit audit entries were logged.
 
 ## Tracking
 

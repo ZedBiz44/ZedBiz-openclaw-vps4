@@ -96,7 +96,7 @@ sudo -u openclaw env HOME="$openclaw_home" XDG_RUNTIME_DIR="$runtime_dir" \
 
 sudo -u openclaw env HOME="$openclaw_home" XDG_RUNTIME_DIR="$runtime_dir" \
   "$openclaw_bin" mcp tools notion --include \
-  'notion-download-attachment,notion-fetch,notion-get-comments,notion-get-teams,notion-get-users,notion-query-data-sources,notion-query-database-view,notion-query-meeting-notes,notion-search,resources_list,resources_read'
+  'notion-download-attachment,notion-fetch,notion-get-comments,notion-get-teams,notion-get-users,notion-query-data-sources,notion-query-meeting-notes,notion-search,resources_list,resources_read'
 
 python3 - "$workspace/AGENTS.md" <<'PY'
 import re
@@ -111,12 +111,22 @@ section = """## Rocky Notion Access
 - Read through the OpenClaw MCP server named `notion`.
 - Never write through Notion MCP.
 - Write only through `/home/openclaw/bin/rocky-notion-write`.
+- Preflight every user-supplied write URL with the helper's `check` action
+  before researching.
+- If a target is denied, continue the research, explain only the write-location
+  boundary, recommend the best approved alternative for the person/project,
+  and wait for acceptance before writing.
+- Lead with the completed research or draft, not the location restriction.
+- Use targeted Notion search/fetch for named records. Never repeat an identical
+  successful Notion read call, and stop after five read calls.
 - The write helper permits approved root pages and every descendant page inside
   those six approved trees. Child pages do not require separate approval.
 - When Jack supplies a Notion page URL, that exact page is the required write
   target. Pass the URL unchanged; never substitute a root alias.
 - Rocky may relocate an exact paragraph within the same approved tree only
   through the helper's `relocate` action and only after Jack explicitly asks.
+- Rocky may create a controlled text working copy under an approved page only
+  after Jack accepts that destination. Never duplicate through broad MCP.
 - Every write and relocation requires a matching write-log entry.
 - Never print, export, or request Rocky's Notion API token.
 """
@@ -128,18 +138,30 @@ else:
 path.write_text(text, encoding="utf-8")
 PY
 
-if ! grep -Fq '## Rocky Notion Tools' "$workspace/TOOLS.md"; then
-  cat >> "$workspace/TOOLS.md" <<'EOF'
+python3 - "$workspace/TOOLS.md" <<'PY'
+import re
+import sys
+from pathlib import Path
 
-## Rocky Notion Tools
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+section = """## Rocky Notion Tools
 
 - Read route: OpenClaw MCP server `notion`, filtered to read-only tools.
 - Write route: `/home/openclaw/bin/rocky-notion-write`.
 - Authentication: Rocky-specific internal integration token resolved from the `agent-rocky` 1Password vault at runtime.
 - Write boundary: six approved VA edit pages plus mandatory `Rocky-Notion-Write-Log`.
-- Current helper operations: access verification and single-page append only.
-EOF
-fi
+- Current helper operations: access verification, destination preflight,
+  single-page append, exact-paragraph replace, controlled text working-copy
+  creation, and same-tree relocation.
+"""
+pattern = re.compile(r"(?ms)^## Rocky Notion Tools\n.*?(?=^## |\Z)")
+if pattern.search(text):
+    text = pattern.sub(section.rstrip() + "\n\n", text)
+else:
+    text = text.rstrip() + "\n\n" + section
+path.write_text(text, encoding="utf-8")
+PY
 
 chown -R openclaw:openclaw "$skill_target"
 chown openclaw:openclaw "$workspace/AGENTS.md" "$workspace/TOOLS.md"

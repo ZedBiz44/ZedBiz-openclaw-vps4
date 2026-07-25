@@ -29,7 +29,6 @@ Read-only MCP tool filter:
 - `notion-get-teams`
 - `notion-get-users`
 - `notion-query-data-sources`
-- `notion-query-database-view`
 - `notion-query-meeting-notes`
 - `notion-search`
 - `resources_list`
@@ -49,12 +48,22 @@ surface.
 - 1Password item: `notion-api-key-Rocky`
 - Secret field reference: `op://agent-rocky/notion-api-key-Rocky/credential`
 
-The helper supports access verification, one-page append, and a narrow
-same-tree relocation for correcting Rocky's own misplaced paragraph. An append target
+The helper supports access verification, destination preflight, one-page
+append, exact-paragraph replacement, controlled text working-copy creation,
+and a narrow same-tree relocation for correcting Rocky's own misplaced
+paragraph. An append target
 can be an approved root alias or a direct page URL/ID whose parent chain is
 inside one of the six approved roots. It does not support deletes, block
 removal outside the explicitly approved relocate action, page moves, database
 schema changes, or mass updates.
+
+For an outside destination, Rocky checks the requested URL before research,
+continues the research even when the write destination is denied, recommends
+the best approved alternative for the current person/project, and waits for
+Jack to accept it. Rocky can then create a controlled text working copy under
+that approved parent. This is not a full Notion duplicate: properties,
+comments, relations, attachments, permissions, embeds, and child pages are not
+cloned.
 
 ## Approved Pages
 
@@ -153,3 +162,51 @@ Repair:
 - URL parsing now takes the final 32 hexadecimal characters from the Notion
   path segment. This prevents titles ending in hexadecimal-looking characters,
   such as `Chad`, from shifting the extracted page ID.
+
+## Denied-Destination Hang And Repair
+
+At 18:42 MDT, Jack tested Rocky with a Dan Kennedy research request whose
+destination page was outside Rocky's approved write trees. Rocky did not write
+to the page, but the Telegram turn became stuck.
+
+Verified root cause:
+
+- Rocky repeatedly called `notion-query-database-view` with the same first-page
+  request 44 times.
+- Rocky never used the returned pagination cursor and never reached the write
+  helper.
+- The timed-out turn left the Telegram lane guarded until the Gateway was
+  restarted.
+
+Repair:
+
+- Removed `notion-query-database-view` from Rocky's exposed MCP tools.
+- Added an exact destination preflight command that records denied attempts
+  without presenting them to Rocky as tool failures.
+- Rocky now completes the research or draft, explains the location restriction,
+  recommends the most relevant approved destination, and waits for acceptance
+  before writing.
+- Named-person work routes to that person's approved root when applicable;
+  shared people research and cross-team work default to `va-team`.
+- Rocky must use targeted search and fetch for named records, cannot repeat an
+  identical successful read, and is limited to five Notion read calls per
+  lookup.
+- Added controlled text working-copy creation and exact single-paragraph
+  replacement under approved roots. Exact MCP page duplication remains
+  prohibited.
+
+Regression proof:
+
+- A fresh Rocky turn produced the full Dan Kennedy summary with four tool calls,
+  made no unauthorized write, recommended an approved alternative, and waited
+  for confirmation.
+- Independent Notion verification confirmed the outside `Dan` page remained
+  empty.
+- With explicit approval, Rocky created
+  `Rocky-Controlled-Copy-Proof-2026-07-24` under
+  `VA-Team-Notion-Edits`, then replaced and verified its exact paragraph.
+- Independent Notion verification confirmed the updated paragraph and matching
+  denied-check, create-copy, and replace entries in
+  `Rocky-Notion-Write-Log`.
+- Runtime backup:
+  `/home/openclaw/.openclaw/backups/notion-workflow-20260724T1855MDT`

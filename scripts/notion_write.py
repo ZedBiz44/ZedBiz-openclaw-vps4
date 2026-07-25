@@ -76,6 +76,15 @@ def paragraph(text: str) -> dict:
     }
 
 
+def title_property(title: str) -> dict:
+    return {
+        "title": {
+            "type": "title",
+            "title": [{"type": "text", "text": {"content": title}}],
+        }
+    }
+
+
 def append_text(token: str, page_id: str, text: str) -> dict:
     if len(text) > 2000:
         raise NotionError("Append text exceeds Notion's 2,000-character rich-text limit")
@@ -85,6 +94,31 @@ def append_text(token: str, page_id: str, text: str) -> dict:
         f"/blocks/{page_id}/children",
         {"children": [paragraph(text)]},
     )
+
+
+def canonical_page_url(page_id: str) -> str:
+    return f"https://app.notion.com/p/{page_id.replace('-', '')}"
+
+
+def split_text(text: str, limit: int = 1900) -> list[str]:
+    remaining = text.strip()
+    chunks: list[str] = []
+    while remaining:
+        if len(remaining) <= limit:
+            chunks.append(remaining)
+            break
+        split_at = max(
+            remaining.rfind("\n\n", 0, limit),
+            remaining.rfind("\n", 0, limit),
+            remaining.rfind(" ", 0, limit),
+        )
+        if split_at < limit // 2:
+            split_at = limit
+        chunk = remaining[:split_at].strip()
+        if chunk:
+            chunks.append(chunk)
+        remaining = remaining[split_at:].strip()
+    return chunks
 
 
 def mountain_timestamp() -> str:
@@ -212,6 +246,43 @@ def archive_block(token: str, block_id: str) -> None:
         raise NotionError(f"Source block archive verification failed for block {block_id}")
 
 
+def command_check(token: str, config: dict, args: argparse.Namespace) -> int:
+    try:
+        root_alias, target_id, target_title = resolve_target(token, config, args.target)
+    except NotionError as exc:
+        try:
+            target_id = normalize_page_id(args.target)
+        except NotionError:
+            target_id = args.target[:100]
+        log_attempt(
+            token,
+            config,
+            source=args.source,
+            root_alias="none",
+            target_title="(unapproved or inaccessible)",
+            target_id=target_id,
+            summary="Requested destination preflight",
+            status="denied",
+            verification="no target write attempted",
+            action="target check",
+            approval_required="yes - alternative destination required",
+            error=str(exc),
+        )
+        print(
+            "target_status=denied: destination is outside Rocky's approved write trees "
+            "or inaccessible to the write integration; no target write attempted; "
+            "denial logged",
+        )
+        return 0
+
+    print(
+        "target_status=allowed: "
+        f"title={target_title} id={target_id} url={canonical_page_url(target_id)} "
+        f"approved_root={root_alias}"
+    )
+    return 0
+
+
 def command_access(token: str, config: dict) -> int:
     failures = 0
     targets = {
@@ -276,10 +347,137 @@ def command_append(token: str, config: dict, args: argparse.Namespace) -> int:
             f"{exc}"
         ) from exc
 
-    canonical_url = f"https://app.notion.com/p/{target_id.replace('-', '')}"
+    canonical_url = canonical_page_url(target_id)
     print(
         "append successful: "
         f"title={target_title} id={target_id} url={canonical_url} "
+        f"approved_root={root_alias}; exact block verified; write logged"
+    )
+    return 0
+
+
+def command_create_copy(token: str, config: dict, args: argparse.Namespace) -> int:
+    if args.approved_by.strip().lower() != "jack":
+        raise NotionError("Create-copy requires explicit --approved-by Jack")
+
+    root_alias, parent_id, parent_title = resolve_target(token, config, args.parent)
+    title = args.title.strip()
+    content = args.content.strip()
+    if not title:
+        raise NotionError("Create-copy title cannot be empty")
+    if len(title) > 200:
+        raise NotionError("Create-copy title exceeds the 200-character safety limit")
+    if not content:
+        raise NotionError("Create-copy content cannot be empty")
+    if len(content) > 12000:
+        raise NotionError("Create-copy content exceeds the 12,000-character safety limit")
+
+    created = request(
+        token,
+        "POST",
+        "/pages",
+        {
+            "parent": {"type": "page_id", "page_id": parent_id},
+            "properties": title_property(title),
+        },
+    )
+    created_id = created.get("id", "")
+    if not created_id:
+        raise NotionError("Notion did not return the created working-copy page ID")
+
+    verified_blocks: list[str] = []
+    try:
+        fetched = request(token, "GET", f"/pages/{created_id}")
+        if page_title(fetched) != title:
+            raise NotionError("Created working-copy title verification failed")
+        for chunk in split_text(content):
+            appended = append_text(token, created_id, chunk)
+            results = appended.get("results", [])
+            if len(results) != 1 or not results[0].get("id"):
+                raise NotionError("Notion did not return a copied-content block ID")
+            block_id = results[0]["id"]
+            verify_block_text(token, block_id, chunk)
+            verified_blocks.append(block_id)
+    except NotionError as exc:
+        log_attempt(
+            token,
+            config,
+            source=args.source,
+            root_alias=root_alias,
+            target_title=title,
+            target_id=created_id,
+            summary=f"Working copy from {args.source_url}: {content}",
+            status="partial",
+            verification=f"{len(verified_blocks)} copied blocks verified",
+            action="create working copy",
+            approval_required="yes - approved by Jack",
+            error=str(exc),
+        )
+        raise NotionError(
+            "Working-copy page was created, but content verification or logging failed; "
+            "do not retry automatically"
+        ) from exc
+
+    verification = (
+        f"created page and {len(verified_blocks)} copied content blocks verified"
+    )
+    log_attempt(
+        token,
+        config,
+        source=args.source,
+        root_alias=root_alias,
+        target_title=title,
+        target_id=created_id,
+        summary=f"Working copy from {args.source_url}: {content}",
+        status="success",
+        verification=verification,
+        action="create working copy",
+        approval_required="yes - approved by Jack",
+    )
+    print(
+        "create-copy successful: "
+        f"title={title} id={created_id} url={canonical_page_url(created_id)} "
+        f"parent_title={parent_title} parent_id={parent_id} "
+        f"approved_root={root_alias}; content verified; write logged"
+    )
+    return 0
+
+
+def command_replace(token: str, config: dict, args: argparse.Namespace) -> int:
+    root_alias, target_id, target_title = resolve_target(token, config, args.target)
+    if len(args.new_text) > 2000:
+        raise NotionError("Replacement text exceeds Notion's 2,000-character limit")
+    matches = matching_child_blocks(token, target_id, args.old_text)
+    if len(matches) != 1:
+        raise NotionError(
+            f"Replace requires exactly one matching paragraph; found {len(matches)}"
+        )
+    block = matches[0]
+    if block.get("type") != "paragraph":
+        raise NotionError("Replace currently supports exact paragraph blocks only")
+    block_id = block["id"]
+    request(
+        token,
+        "PATCH",
+        f"/blocks/{block_id}",
+        {"paragraph": paragraph(args.new_text)["paragraph"]},
+    )
+    verify_block_text(token, block_id, args.new_text)
+    log_attempt(
+        token,
+        config,
+        source=args.source,
+        root_alias=root_alias,
+        target_title=target_title,
+        target_id=target_id,
+        summary=f"Replaced exact paragraph: {args.old_text} -> {args.new_text}",
+        status="success",
+        verification=f"exact replacement block verified: {block_id}",
+        action="replace paragraph",
+    )
+    print(
+        "replace successful: "
+        f"title={target_title} id={target_id} url={canonical_page_url(target_id)} "
         f"approved_root={root_alias}; exact block verified; write logged"
     )
     return 0
@@ -359,7 +557,7 @@ def command_relocate(token: str, config: dict, args: argparse.Namespace) -> int:
         action="relocate",
         approval_required="yes - approved by Jack",
     )
-    canonical_url = f"https://app.notion.com/p/{target_id.replace('-', '')}"
+    canonical_url = canonical_page_url(target_id)
     print(
         "relocate successful: "
         f"from_title={source_title} from_id={source_id} "
@@ -381,6 +579,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers.add_parser("access", help="Verify access to every approved page and log")
 
+    check_parser = subparsers.add_parser(
+        "check",
+        help="Check and audit whether a requested destination is approved",
+    )
+    check_parser.add_argument("target", help="Notion page URL/ID to preflight")
+    check_parser.add_argument("--source", default="Jack")
+
     append_parser = subparsers.add_parser("append", help="Append text to an approved page")
     append_parser.add_argument(
         "target",
@@ -388,6 +593,26 @@ def build_parser() -> argparse.ArgumentParser:
     )
     append_parser.add_argument("text")
     append_parser.add_argument("--source", default="Jack")
+
+    create_parser = subparsers.add_parser(
+        "create-copy",
+        help="Create a controlled text working copy under an approved page",
+    )
+    create_parser.add_argument("parent", help="Approved parent alias or page URL/ID")
+    create_parser.add_argument("title")
+    create_parser.add_argument("content")
+    create_parser.add_argument("--source-url", required=True)
+    create_parser.add_argument("--source", default="Jack")
+    create_parser.add_argument("--approved-by", required=True)
+
+    replace_parser = subparsers.add_parser(
+        "replace",
+        help="Replace one exact paragraph on an approved page",
+    )
+    replace_parser.add_argument("target", help="Approved page alias or URL/ID")
+    replace_parser.add_argument("old_text")
+    replace_parser.add_argument("new_text")
+    replace_parser.add_argument("--source", default="Jack")
 
     relocate_parser = subparsers.add_parser(
         "relocate",
@@ -412,8 +637,14 @@ def main() -> int:
         config = load_config(args.config)
         if args.command == "access":
             return command_access(token, config)
+        if args.command == "check":
+            return command_check(token, config, args)
         if args.command == "append":
             return command_append(token, config, args)
+        if args.command == "create-copy":
+            return command_create_copy(token, config, args)
+        if args.command == "replace":
+            return command_replace(token, config, args)
         if args.command == "relocate":
             return command_relocate(token, config, args)
         raise NotionError(f"Unsupported command: {args.command}")
