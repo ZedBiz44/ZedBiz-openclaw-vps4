@@ -147,4 +147,19 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 ## Tracking
 
 - GitHub issue: https://github.com/ZedBiz44/ZedBiz-openclaw-vps4/issues/1
+
+## Google Workspace Through gog
+
+- Rocky uses OpenClaw's bundled `gog` skill and the native Linux `gogcli`
+  binary.
+- The real `gog` binary is root-owned at
+  `/home/openclaw/.local/secure-bin/gog-real`. Rocky uses the protected
+  `/home/openclaw/bin/gog` wrapper.
+- OAuth refresh tokens use `gog`'s encrypted file-keyring backend. Its randomly
+  generated encryption key is readable only by the dedicated `openclaw`
+  account.
+- Google OAuth is independent of Rocky's xAI/Grok OAuth.
+- Full Drive read/write access is enabled only by authorizing the
+  `jack@zbiz.work` Google account through `gog`.
+- Installation is reproducible through `scripts/18-install-rocky-gog.sh`.
 - Notion SOP: https://app.notion.com/p/371a3e33d5818357872d0198ecade27d

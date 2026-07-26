@@ -37,6 +37,7 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 - [Rocky ZedBiz wiki skills](scripts/15-install-rocky-wiki-skills.sh)
 - [Rocky Hindsight memory](scripts/16-install-rocky-hindsight.sh)
 - [Rocky controlled Notion access](scripts/17-configure-rocky-notion.sh)
+- [Rocky Google Workspace gog CLI](scripts/18-install-rocky-gog.sh)
 - [Rocky Notion access record](docs/rocky-notion-access.md)
 
 ## Current Status
