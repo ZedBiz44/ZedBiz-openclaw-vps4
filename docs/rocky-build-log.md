@@ -172,3 +172,13 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Ran the common August memory benchmark. Rocky passed retain, paraphrase, freshness, unsafe-secret, and raw-log checks. The exact synthetic sentinel was not reproduced verbatim and the full Notion URL was not retained verbatim, matching the broader Hindsight pattern.
 - Verified the real Rocky user path after upgrade: Rocky recalled `CANYON-PINE-7429` through the OpenClaw agent and Hindsight integration.
 - Deleted the synthetic benchmark document after scoring.
+
+## 2026-08-05 Hindsight Green Improvement
+
+- Exposed the supported `agent_knowledge_ingest` tool through Rocky's restricted `coding` tool profile without broadening the rest of his tool access.
+- Backed up the live configuration at `/home/openclaw/.openclaw/backups/openclaw-before-hindsight-ingest-20260805-111728.json`.
+- Verified Rocky personally ingested and recalled an exact identifier and a complete authoritative Notion URL through his normal Telegram-backed agent session.
+- Re-ran the structured exact-value benchmark across all nine Hindsight agents. Every agent returned the exact identifier at rank 1 and the complete source URL at rank 1.
+- Recorded the durable operating rule: store exact IDs, URLs, legal or financial figures, and other verbatim values as small atomic Hindsight documents with stable document IDs and source metadata instead of burying them in narrative conversation memory.
+- Updated the reproducible installer so future Rocky rebuilds retain access to `agent_knowledge_ingest` while preserving any other explicitly allowed tools.
+- Revised Hindsight operating score: **Green — 94/100**.
