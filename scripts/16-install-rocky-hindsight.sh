@@ -75,6 +75,9 @@ fi
 
 cat >"$patch_file" <<'JSON'
 {
+  "tools": {
+    "alsoAllow": ["agent_knowledge_ingest"]
+  },
   "plugins": {
     "allow": ["slack", "hindsight-openclaw"],
     "slots": {
@@ -142,6 +145,13 @@ cat >"$patch_file" <<'JSON'
   }
 }
 JSON
+
+# Preserve any other explicitly allowed tools while ensuring Rocky can use the
+# Hindsight knowledge-ingest tool from his restricted coding profile.
+current_also_allow="$(jq -c '[(.tools.alsoAllow // [])[], "agent_knowledge_ingest"] | unique' "$config_file")"
+jq --argjson also_allow "$current_also_allow" '.tools.alsoAllow = $also_allow' \
+  "$patch_file" >"$patch_file.merged"
+mv "$patch_file.merged" "$patch_file"
 
 chown openclaw:openclaw "$patch_file"
 chmod 0600 "$patch_file"
