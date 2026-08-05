@@ -163,3 +163,12 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
   `jack@zbiz.work` Google account through `gog`.
 - Installation is reproducible through `scripts/18-install-rocky-gog.sh`.
 - Notion SOP: https://app.notion.com/p/371a3e33d5818357872d0198ecade27d
+## 2026-08-05 Hindsight 0.10.0 And Monthly Memory Benchmark
+
+- Upgraded Rocky's `@vectorize-io/hindsight-openclaw` integration from `0.9.0` to `0.10.0`.
+- Preserved the local Hindsight service, dynamic bank prefix `rocky-vps4`, and existing memory data.
+- Backup: `/home/openclaw/.openclaw/backups/hindsight-0100-20260805-095236`.
+- Verified the OpenClaw gateway active, Hindsight healthy with its database connected, and plugin `0.10.0` loaded.
+- Ran the common August memory benchmark. Rocky passed retain, paraphrase, freshness, unsafe-secret, and raw-log checks. The exact synthetic sentinel was not reproduced verbatim and the full Notion URL was not retained verbatim, matching the broader Hindsight pattern.
+- Verified the real Rocky user path after upgrade: Rocky recalled `CANYON-PINE-7429` through the OpenClaw agent and Hindsight integration.
+- Deleted the synthetic benchmark document after scoring.
