@@ -11,7 +11,7 @@ openclaw_bin="$openclaw_home/.npm-global/bin/openclaw"
 config_file="$openclaw_home/.openclaw/openclaw.json"
 env_file="$openclaw_home/.config/openclaw/1password.env"
 runtime_dir="/run/user/$(id -u openclaw)"
-plugin_version="0.9.0"
+plugin_version="0.10.0"
 patch_file="$(mktemp)"
 uv_installer=""
 backup_file="$config_file.before-hindsight-$(date +%Y%m%d-%H%M%S)"
@@ -68,8 +68,8 @@ runuser -u openclaw -- env \
 cp -a "$config_file" "$backup_file"
 
 if ! run_openclaw plugins list --json 2>/dev/null \
-  | jq -e '.plugins[]? | select(.id == "hindsight-openclaw" and .version == "0.9.0")' >/dev/null; then
-  run_openclaw plugins install --pin \
+  | jq -e '.plugins[]? | select(.id == "hindsight-openclaw" and .version == "0.10.0")' >/dev/null; then
+  run_openclaw plugins install --force --pin \
     "@vectorize-io/hindsight-openclaw@$plugin_version"
 fi
 
@@ -163,7 +163,7 @@ done
 systemctl --user -M openclaw@ is-active --quiet openclaw-gateway.service
 curl -fsS --max-time 10 http://127.0.0.1:9077/health >/dev/null
 run_openclaw plugins list --json \
-  | jq -e '.plugins[]? | select(.id == "hindsight-openclaw" and .status == "loaded" and .version == "0.9.0")' \
+  | jq -e '.plugins[]? | select(.id == "hindsight-openclaw" and .status == "loaded" and .version == "0.10.0")' \
   >/dev/null
 run_openclaw secrets audit
 
