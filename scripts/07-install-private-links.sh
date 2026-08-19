@@ -26,7 +26,7 @@ Wants=network-online.target
 
 [Service]
 User=openclaw
-ExecStart=/usr/bin/ssh -NT -i $ssh_dir/vps1-caddy-tunnel -o BatchMode=yes -o StrictHostKeyChecking=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -R 127.0.0.1:3012:127.0.0.1:18789 jackadmin@$vps1_host
+ExecStart=/usr/bin/ssh -NT -i $ssh_dir/vps1-caddy-tunnel -o BatchMode=yes -o StrictHostKeyChecking=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -R 127.0.0.1:3012:127.0.0.1:18789 -R 127.0.0.1:3014:127.0.0.1:8787 jackadmin@$vps1_host
 Restart=always
 RestartSec=5
 
@@ -83,4 +83,3 @@ sudo -u openclaw env XDG_RUNTIME_DIR="$runtime_dir" systemctl --user enable --no
 sudo -u openclaw env XDG_RUNTIME_DIR="$runtime_dir" systemctl --user start rocky-wiki-sync.service
 
 echo "Rocky's private Caddy tunnel and read-only wiki sync are installed"
-

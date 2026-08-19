@@ -12,7 +12,7 @@ command -v rrsync >/dev/null
 tunnel_key="$(cat "$tunnel_pub")"
 wiki_key="$(cat "$wiki_pub")"
 
-tunnel_line="command=\"/usr/bin/sleep infinity\",restrict,port-forwarding,permitlisten=\"127.0.0.1:3012\" $tunnel_key"
+tunnel_line="command=\"/usr/bin/sleep infinity\",restrict,port-forwarding,permitlisten=\"127.0.0.1:3012\",permitlisten=\"127.0.0.1:3014\" $tunnel_key"
 wiki_line="command=\"/usr/bin/rrsync -ro /opt/openclaw/shared/knowledge/wiki\",restrict $wiki_key"
 
 grep -Fqx "$tunnel_line" "$authorized_keys" || printf '%s\n' "$tunnel_line" >> "$authorized_keys"
@@ -20,4 +20,3 @@ grep -Fqx "$wiki_line" "$authorized_keys" || printf '%s\n' "$wiki_line" >> "$aut
 
 chmod 0600 "$authorized_keys"
 echo "Rocky's restricted VPS1 keys are authorized"
-
