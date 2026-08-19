@@ -10,6 +10,7 @@ repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 openclaw_home="/home/openclaw"
 config_file="${openclaw_home}/.openclaw/openclaw.json"
 workspace="${openclaw_home}/.openclaw/workspace"
+gateway_wrapper="${openclaw_home}/bin/openclaw-gateway-discord"
 openclaw_bin="${openclaw_home}/.npm-global/bin/openclaw"
 runtime_dir="/run/user/$(id -u openclaw)"
 playwright_dir="${openclaw_home}/.local/openclaw-playwright"
@@ -80,11 +81,28 @@ jq --arg browser_path "${managed_browser_dir}/chromium" '
     defaultProfile: "openclaw",
     executablePath: $browser_path,
     noSandbox: true
-  })
+  }) |
+  .mcp = (.mcp // {}) |
+  .mcp.servers = (.mcp.servers // {}) |
+  .mcp.servers.percify = {
+    url: "https://api.percify.io/v3/mcp",
+    transport: "streamable-http",
+    timeout: 90,
+    connectTimeout: 20,
+    supportsParallelToolCalls: true,
+    headers: {Authorization: "Bearer ${PERCIFY_API_KEY}"}
+  }
 ' "${config_file}" > "${tmp_config}"
 
 install -o openclaw -g openclaw -m 0600 "${tmp_config}" "${config_file}"
 rm -f "${tmp_config}"
+
+[[ -x "${gateway_wrapper}" ]] || { echo "Missing ${gateway_wrapper}" >&2; exit 1; }
+if ! grep -q '^export PERCIFY_API_KEY=' "${gateway_wrapper}"; then
+  sed -i "/^export DISCORD_BOT_TOKEN=/a export PERCIFY_API_KEY=\"\$(op read 'op://agent-rocky/percify-api-key/credential')\"" "${gateway_wrapper}"
+fi
+chown openclaw:openclaw "${gateway_wrapper}"
+chmod 0755 "${gateway_wrapper}"
 
 install -d -o openclaw -g openclaw -m 0755 "${workspace}/skills/website-screenshots"
 install -o openclaw -g openclaw -m 0644 \
@@ -117,6 +135,18 @@ cat > "${media_rule_file}" <<'EOF'
 <!-- manus:media-generation-execution:end -->
 EOF
 
+percify_rule_file="$(mktemp)"
+cat > "${percify_rule_file}" <<'EOF'
+<!-- manus:percify-creative-platform:start -->
+## Percify Creative Platform
+
+- Percify is a connected MCP capability. Use its tools for direct user-authorized creative production that benefits from a live multi-model catalog, video analysis, video replication, image generation or editing, voice production, talking avatars, dubbing, and multi-clip campaign assets.
+- Before a new Percify generation workflow, use `percify__list_models` to select a suitable currently available model. Use `percify__check_usage` when the user asks about credits or when a substantial multi-asset campaign could materially consume account credits. Do not call either tool merely to answer a non-execution question.
+- For a user-authorized creative task, invoke Percify’s relevant generation or analysis tool and wait for the result. Do not respond with a provider list, a generic prompt, or a manual workaround while Percify is available.
+- Direct requests from Jack authorize internal drafts. Ask for confirmation only immediately before publishing externally, sending to a third party, spending beyond a clearly stated user-approved budget, deleting data, or making another irreversible change.
+<!-- manus:percify-creative-platform:end -->
+EOF
+
 rule_file="$(mktemp)"
 cat > "${rule_file}" <<'EOF'
 <!-- manus:screenshot-delivery:start -->
@@ -132,11 +162,12 @@ EOF
 rules_without_marker="$(mktemp)"
 sed '/<!-- manus:direct-creative-authorization:start -->/,/<!-- manus:direct-creative-authorization:end -->/d' "${agent_rules}" | \
   sed '/<!-- manus:media-generation-execution:start -->/,/<!-- manus:media-generation-execution:end -->/d' | \
+  sed '/<!-- manus:percify-creative-platform:start -->/,/<!-- manus:percify-creative-platform:end -->/d' | \
   sed '/<!-- manus:screenshot-delivery:start -->/,/<!-- manus:screenshot-delivery:end -->/d' > "${rules_without_marker}"
-{ head -n 1 "${rules_without_marker}"; cat "${creative_rule_file}"; cat "${media_rule_file}"; cat "${rule_file}"; tail -n +2 "${rules_without_marker}"; } > "${agent_rules}"
+{ head -n 1 "${rules_without_marker}"; cat "${creative_rule_file}"; cat "${media_rule_file}"; cat "${percify_rule_file}"; cat "${rule_file}"; tail -n +2 "${rules_without_marker}"; } > "${agent_rules}"
 chown openclaw:openclaw "${agent_rules}"
 chmod 0644 "${agent_rules}"
-rm -f "${creative_rule_file}" "${media_rule_file}" "${rule_file}" "${rules_without_marker}"
+rm -f "${creative_rule_file}" "${media_rule_file}" "${percify_rule_file}" "${rule_file}" "${rules_without_marker}"
 
 sudo -u openclaw env HOME="${openclaw_home}" XDG_RUNTIME_DIR="${runtime_dir}" \
   systemctl --user daemon-reload
