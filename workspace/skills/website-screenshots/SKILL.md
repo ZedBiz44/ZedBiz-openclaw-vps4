@@ -5,26 +5,26 @@ Use this skill whenever the user asks for an actual visual screenshot of a publi
 ## Required Behavior
 
 - Do not claim that `web_fetch` or text extraction is a screenshot.
-- Use the managed `browser` tool when it is available and appropriate.
-- If a direct image file is needed, or the browser tool is unavailable, use the Bash tool to run headless Chromium and create a PNG.
+- For a public webpage, use Bash with `/home/openclaw/bin/openclaw-screenshot` to create the PNG. This is the required default route on Rocky.
+- Use the managed `browser` tool only for interactive or authenticated pages. Navigate first, then confirm the target page is loaded before requesting a screenshot.
+- Do not use `browser` action `screenshot` as the sole public-page capture route. On Rocky it can return a blank initial-tab image even when a URL is supplied.
 - Send the resulting image file to the user as media. Do not merely describe the capture.
 
 ## Public Website Capture
 
-Create an artifact directory inside the workspace and use Chromium. Set a clean, unique user-data directory to avoid profile-lock errors.
+Create an artifact directory inside the workspace and use the verified wrapper. It launches the managed Playwright Chromium binary with a clean, unique browser profile to avoid Snap confinement and profile-lock errors.
 
 ```bash
 artifact_dir="$HOME/.openclaw/workspace/artifacts/site-screenshots/$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$artifact_dir"
-chromium --headless --no-sandbox --disable-gpu --disable-dev-shm-usage \
-  --hide-scrollbars --window-size=1440,1600 --virtual-time-budget=8000 \
-  --user-data-dir="/tmp/openclaw-chromium-$RANDOM" \
-  --screenshot="$artifact_dir/page.png" \
-  "https://example.com/"
+/home/openclaw/bin/openclaw-screenshot \
+  "https://example.com/" \
+  "$artifact_dir/page.png" \
+  2500
 file "$artifact_dir/page.png"
 ```
 
-For a tall landing page, increase the viewport height such as `--window-size=1440,9000`. For more reliable full-page capture on complex pages, use Playwright through Bash if it is installed. If it is not installed, do not install arbitrary packages in the middle of an ordinary capture request. Use Chromium first and clearly state any rendering limitation.
+For a taller landing page, pass a larger third argument such as `9000`. The verified Rocky route generates a rendered 1440-pixel-wide PNG. Do not install arbitrary packages during an ordinary capture request.
 
 ## Delivery and Verification
 

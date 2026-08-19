@@ -90,6 +90,28 @@ install -o openclaw -g openclaw -m 0644 \
   "${repo_dir}/workspace/skills/website-screenshots/SKILL.md" \
   "${workspace}/skills/website-screenshots/SKILL.md"
 
+# AGENTS.md can exceed OpenClaw's bootstrap limit. Keep this operational rule at
+# the top so the model receives it in every new session instead of truncating it.
+agent_rules="${workspace}/AGENTS.md"
+rule_file="$(mktemp)"
+cat > "${rule_file}" <<'EOF'
+<!-- manus:screenshot-delivery:start -->
+## Browser And Screenshot Delivery
+
+- You have browser, shell execution, file, web search, and web fetch capabilities. Do not describe yourself as limited to `web_fetch` unless a live tool invocation has actually failed.
+- For a public website screenshot, **do not call the `browser` screenshot action**. It returns a blank initial-tab PNG on Rocky. You must call `/home/openclaw/bin/openclaw-screenshot` through shell execution, wait for it to finish, and attach that produced PNG before replying.
+- Use the managed `browser` tool only for interactive or authenticated pages. Navigate first, then confirm the target page is loaded before requesting a screenshot.
+- Store captures under `workspace/artifacts/site-screenshots/` and attach or link the actual image file in the response. Text extraction, HTML, or a written description is never a substitute for a requested screenshot.
+- If both screenshot routes fail, report the exact attempted route and the specific failure. Do not replace the requested image with a page summary or ask a follow-up that delays the capture.
+<!-- manus:screenshot-delivery:end -->
+EOF
+rules_without_marker="$(mktemp)"
+sed '/<!-- manus:screenshot-delivery:start -->/,/<!-- manus:screenshot-delivery:end -->/d' "${agent_rules}" > "${rules_without_marker}"
+{ head -n 1 "${rules_without_marker}"; cat "${rule_file}"; tail -n +2 "${rules_without_marker}"; } > "${agent_rules}"
+chown openclaw:openclaw "${agent_rules}"
+chmod 0644 "${agent_rules}"
+rm -f "${rule_file}" "${rules_without_marker}"
+
 sudo -u openclaw env HOME="${openclaw_home}" XDG_RUNTIME_DIR="${runtime_dir}" \
   systemctl --user daemon-reload
 sudo -u openclaw env HOME="${openclaw_home}" XDG_RUNTIME_DIR="${runtime_dir}" \
