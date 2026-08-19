@@ -39,6 +39,7 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 - [Rocky controlled Notion access](scripts/17-configure-rocky-notion.sh)
 - [Rocky Google Workspace gog CLI](scripts/18-install-rocky-gog.sh)
 - [Rocky restart API](scripts/20-install-rocky-restart-api.sh)
+- [Rocky local FFmpeg and Whisper tools](scripts/21-install-rocky-media-tools.sh)
 - [Rocky Notion access record](docs/rocky-notion-access.md)
 
 ## Current Status
@@ -46,3 +47,4 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, browser device pairing, browser chat, shared-wiki sync, ZedBiz wiki-research skills, Hindsight conversational memory, email inbox, PAT-backed Asana identity, Telegram bot connection and inbound delivery, Slack Socket Mode connection and two-way DM delivery, virtual-assistant profile, restart dashboard integration, and reboot recovery are verified. Hindsight automatically retains and recalls Rocky's conversations through isolated dynamic banks, and Rocky's historical non-empty sessions have been backfilled. Telegram still needs a final human-visible outbound reply confirmation. Outbound email still needs an explicitly approved recipient/message test. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).
 
 Rocky's Notion access is also verified: OAuth-backed MCP reading is filtered to read-only tools, and internal-integration writes are limited to six approved VA edit pages plus mandatory write logging.
+- Rocky's local `openai-whisper` skill is Ready without an API key. FFmpeg and the Whisper CLI are reproducibly installed through `scripts/21-install-rocky-media-tools.sh`.

@@ -182,3 +182,11 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Recorded the durable operating rule: store exact IDs, URLs, legal or financial figures, and other verbatim values as small atomic Hindsight documents with stable document IDs and source metadata instead of burying them in narrative conversation memory.
 - Updated the reproducible installer so future Rocky rebuilds retain access to `agent_knowledge_ingest` while preserving any other explicitly allowed tools.
 - Revised Hindsight operating score: **Green — 94/100**.
+
+## 2026-08-19 Local Video Caption Tooling
+
+- Installed FFmpeg and local OpenAI Whisper for Rocky without adding an OpenAI API key.
+- Downloaded the Whisper `tiny` model during verification and successfully transcribed a generated audio test file.
+- Restarted Rocky's OpenClaw gateway so its cached skill eligibility refreshed.
+- Verified `openclaw skills info openai-whisper` reports **Ready** and the gateway remains active.
+- Added `scripts/21-install-rocky-media-tools.sh` so the live state is reproducible from GitHub.
