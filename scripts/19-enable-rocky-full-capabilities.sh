@@ -93,6 +93,29 @@ install -o openclaw -g openclaw -m 0644 \
 # AGENTS.md can exceed OpenClaw's bootstrap limit. Keep this operational rule at
 # the top so the model receives it in every new session instead of truncating it.
 agent_rules="${workspace}/AGENTS.md"
+creative_rule_file="$(mktemp)"
+cat > "${creative_rule_file}" <<'EOF'
+<!-- manus:direct-creative-authorization:start -->
+## Direct User Authorization And Creative Production
+
+- A direct request from Jack to create, generate, draft, design, record, render, or prepare an internal asset is sufficient authorization to start the work. This includes promo videos, voice-overs, images, ad creative, social drafts, emails, documents, presentations, and internal marketing assets.
+- Creating a draft asset is internal production, not external publishing. Do not ask Jack for a second approval before starting a directly requested draft. Do not reinterpret a request for a promo video or voice-over as a request to publish it.
+- Confirmation is required only immediately before an external or irreversible action: sending to a recipient, posting or publishing publicly, spending funds, changing a live production system, or deleting data. State that boundary only when the next requested step actually crosses it.
+- If a requested creative-production capability is unavailable, say exactly what is missing and immediately produce the useful available work, such as the concept, script, storyboard, shot list, voice-over copy, asset list, or production plan. Never refuse a user-authorized draft merely because it could later be used externally.
+<!-- manus:direct-creative-authorization:end -->
+EOF
+
+media_rule_file="$(mktemp)"
+cat > "${media_rule_file}" <<'EOF'
+<!-- manus:media-generation-execution:start -->
+## Media Generation Execution
+
+- For a direct request to create a video, image, audio asset, or voice-over, invoke the relevant generation tool and submit a real generation request before replying. A provider inventory or capability list is not a completed creative asset.
+- If `video_generate` first returns provider information, immediately make a second `video_generate` call with `action: "generate"`, a complete prompt, the configured provider or model, and supported audio, duration, resolution, and aspect-ratio settings. Do not ask for a second approval.
+- Use the configured xAI video provider when it is available. Only fall back to a concept and production package if every configured generation provider returns a concrete failure. Report that exact failure and deliver the usable package in the same reply.
+<!-- manus:media-generation-execution:end -->
+EOF
+
 rule_file="$(mktemp)"
 cat > "${rule_file}" <<'EOF'
 <!-- manus:screenshot-delivery:start -->
@@ -106,11 +129,13 @@ cat > "${rule_file}" <<'EOF'
 <!-- manus:screenshot-delivery:end -->
 EOF
 rules_without_marker="$(mktemp)"
-sed '/<!-- manus:screenshot-delivery:start -->/,/<!-- manus:screenshot-delivery:end -->/d' "${agent_rules}" > "${rules_without_marker}"
-{ head -n 1 "${rules_without_marker}"; cat "${rule_file}"; tail -n +2 "${rules_without_marker}"; } > "${agent_rules}"
+sed '/<!-- manus:direct-creative-authorization:start -->/,/<!-- manus:direct-creative-authorization:end -->/d' "${agent_rules}" | \
+  sed '/<!-- manus:media-generation-execution:start -->/,/<!-- manus:media-generation-execution:end -->/d' | \
+  sed '/<!-- manus:screenshot-delivery:start -->/,/<!-- manus:screenshot-delivery:end -->/d' > "${rules_without_marker}"
+{ head -n 1 "${rules_without_marker}"; cat "${creative_rule_file}"; cat "${media_rule_file}"; cat "${rule_file}"; tail -n +2 "${rules_without_marker}"; } > "${agent_rules}"
 chown openclaw:openclaw "${agent_rules}"
 chmod 0644 "${agent_rules}"
-rm -f "${rule_file}" "${rules_without_marker}"
+rm -f "${creative_rule_file}" "${media_rule_file}" "${rule_file}" "${rules_without_marker}"
 
 sudo -u openclaw env HOME="${openclaw_home}" XDG_RUNTIME_DIR="${runtime_dir}" \
   systemctl --user daemon-reload
