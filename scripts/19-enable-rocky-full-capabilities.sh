@@ -104,11 +104,6 @@ fi
 chown openclaw:openclaw "${gateway_wrapper}"
 chmod 0755 "${gateway_wrapper}"
 
-install -d -o openclaw -g openclaw -m 0755 "${workspace}/skills/website-screenshots"
-install -o openclaw -g openclaw -m 0644 \
-  "${repo_dir}/workspace/skills/website-screenshots/SKILL.md" \
-  "${workspace}/skills/website-screenshots/SKILL.md"
-
 # AGENTS.md can exceed OpenClaw's bootstrap limit. Keep this operational rule at
 # the top so the model receives it in every new session instead of truncating it.
 agent_rules="${workspace}/AGENTS.md"

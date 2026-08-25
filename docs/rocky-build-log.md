@@ -213,6 +213,12 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
   Rocky's 1Password internal-integration credential.
 - The OAuth test passed with `notion-update-page` followed by `notion-fetch` on
   `VPS4-OpenClaw-Rocky-Notion-Access`.
+- Removed the orphaned `website-screenshots` folder after OpenClaw confirmed it
+  was not a discoverable skill. Rocky retains the active OpenClaw extension
+  skill `browser-automation` for browser and screenshot work.
+- Removed the nested `z-sop-framework` example copy and nested
+  `z-audio-production` distribution copy from Rocky's live skill tree so every
+  workspace skill has exactly one discoverable `SKILL.md`.
 - Rocky's 1Password service account returned permission error 101 when asked to
   archive the old item. The Notion management browser required a human login.
   Both account-side artifacts remain owner cleanup; the executable VPS helper,
