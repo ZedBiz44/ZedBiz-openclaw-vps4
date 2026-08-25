@@ -190,3 +190,30 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Restarted Rocky's OpenClaw gateway so its cached skill eligibility refreshed.
 - Verified `openclaw skills info openai-whisper` reports **Ready** and the gateway remains active.
 - Added `scripts/21-install-rocky-media-tools.sh` so the live state is reproducible from GitHub.
+
+## 2026-08-25 Notion OAuth Consolidation And Skill Cleanup
+
+- Retired `rocky-notion-control` and the separate internal-token write helper.
+- Removed Rocky's Notion MCP include filter so the OAuth connection exposes the
+  complete toolset allowed by Rocky's connected Notion user.
+- Made `z-notion-knowledge-publish` Rocky's only governed ZedBiz Notion
+  publishing skill.
+- Refreshed Rocky's ZedBiz skills from their current canonical GitHub main
+  branches and removed skill backup, retired, disabled, and failed-upgrade
+  copies from Rocky's host.
+- Deployed canonical commits: `z-ai-skill-developer` `9e8941e`,
+  `z-audio-production` `e3a94a0`, `z-knowledge-routing` `d81b042`,
+  `z-notion-knowledge-publish` `2346997`, `z-record-knowledge` `8661d3f`,
+  `z-sop-framework` `5926d33`, `z-video-production` `099f10c`, and
+  `z-wiki-research` `2778955`. All eight live `SKILL.md` hashes matched their
+  canonical checkout and OpenClaw reported every skill ready.
+- Preserved historical GitHub records and `Rocky-Notion-Write-Log` as audit
+  history rather than active infrastructure.
+- Required a live OAuth write plus exact destination read-back before retiring
+  Rocky's 1Password internal-integration credential.
+- The OAuth test passed with `notion-update-page` followed by `notion-fetch` on
+  `VPS4-OpenClaw-Rocky-Notion-Access`.
+- Rocky's 1Password service account returned permission error 101 when asked to
+  archive the old item. The Notion management browser required a human login.
+  Both account-side artifacts remain owner cleanup; the executable VPS helper,
+  config, skill, backups, and active references are removed.
