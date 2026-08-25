@@ -219,6 +219,11 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Removed the nested `z-sop-framework` example copy and nested
   `z-audio-production` distribution copy from Rocky's live skill tree so every
   workspace skill has exactly one discoverable `SKILL.md`.
+- Removed the stale `z-percify-voice-production` skill. Its former GitHub
+  repository now publishes `z-audio-production`, confirming the replacement;
+  Rocky retains the current audio skill and Percify MCP capability.
+- Refreshed `zedbiz-asana-agent-control` from the current approved ZedBiz copy,
+  including the 76-tool Streamable HTTP MCP rules and corrected probe guidance.
 - Rocky's 1Password service account returned permission error 101 when asked to
   archive the old item. The Notion management browser required a human login.
   Both account-side artifacts remain owner cleanup; the executable VPS helper,
