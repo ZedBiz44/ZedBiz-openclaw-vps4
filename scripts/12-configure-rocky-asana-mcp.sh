@@ -116,7 +116,7 @@ for _ in $(seq 1 30); do
 done
 curl --fail --silent http://127.0.0.1:8080/healthz
 
-asana_pat="$(sudo -u openclaw env HOME="${openclaw_home}" bash -lc "source '${openclaw_home}/.config/openclaw/1password.env'; '${openclaw_home}/.local/secure-bin/op' read 'op://agent-rocky/asana-api-key-rocky/credential'")"
+asana_pat="$(sudo -u openclaw env HOME="${openclaw_home}" bash -lc "set -a; source '${openclaw_home}/.config/openclaw/1password.env'; set +a; '${openclaw_home}/.local/secure-bin/op' read 'op://agent-rocky/asana-api-key-rocky/credential'")"
 sudo -u openclaw env HOME="${openclaw_home}" MCP_AUTH_TOKEN="${asana_pat}" \
   node "${install_dir}/scripts/verify-standard.mjs" \
   "1216804011183079" "rocky@agents.zbiz.ca" "11298561585567"
