@@ -98,8 +98,6 @@ jq '
   .mcp.servers.asana = {
     url: "http://127.0.0.1:8080/mcp",
     transport: "streamable-http",
-    timeout: 90,
-    connectTimeout: 20,
     supportsParallelToolCalls: true,
     headers: {Authorization: "Bearer ${ASANA_ACCESS_TOKEN}"}
   }
