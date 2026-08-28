@@ -1,6 +1,6 @@
 # Rocky External Skills
 
-date: 2026-08-25 | agent: Cody | status: Verified
+date: 2026-08-28 | agent: Cody | status: Verified
 
 ## Scope
 
@@ -37,15 +37,18 @@ These are Rocky-specific external skills in
 | `z-sop-framework` | `/home/openclaw/.openclaw/workspace/skills/z-sop-framework/SKILL.md` |
 | `z-video-production` | `/home/openclaw/.openclaw/workspace/skills/z-video-production/SKILL.md` |
 | `z-wiki-research` | `/home/openclaw/.openclaw/workspace/skills/z-wiki-research/SKILL.md` |
-| `zedbiz-asana-agent-control` | `/home/openclaw/.openclaw/workspace/skills/zedbiz-asana-agent-control/SKILL.md` |
+| `z-asana-agent-control` | `/home/openclaw/.openclaw/workspace/skills/z-asana-agent-control/SKILL.md` |
 
 ## Cleanup Verification
 
 - No managed-skill directory exists at `/home/openclaw/.openclaw/skills`.
-- No backup, disabled, retired, or failed-upgrade `SKILL.md` remains.
+- No backup, disabled, retired, or failed-upgrade `SKILL.md` remains in the
+  discoverable skill tree. Deployment backups remain outside that tree.
 - Each workspace skill has exactly one `SKILL.md`.
 - `rocky-notion-control`, `website-screenshots`, and
   `z-percify-voice-production` are absent from discovery and the live skill
   tree.
 - Nested distribution/example copies of `z-audio-production` and
   `z-sop-framework` were removed from Rocky's live skill tree.
+- The legacy `zedbiz-asana-agent-control` folder was removed after the
+  canonical `z-asana-agent-control` replacement passed live verification.

@@ -228,3 +228,26 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
   archive the old item. The Notion management browser required a human login.
   Both account-side artifacts remain owner cleanup; the executable VPS helper,
   config, skill, backups, and active references are removed.
+
+## 2026-08-28 Rocky Asana Standard Route And Governed Skill
+
+- Replaced Rocky's 41-tool raw Asana stdio route with the ZedBiz Standard
+  Streamable HTTP service: 76 Asana operations on loopback only.
+- Preserved Rocky's existing PAT source,
+  `op://agent-rocky/asana-api-key-rocky/credential`; no second Asana account or
+  OAuth connection was introduced.
+- Installed the canonical `z-asana-agent-control` Skill and removed the legacy
+  `zedbiz-asana-agent-control` folder from the live discoverable skill tree.
+- Verified the authenticated identity as `rocky@agents.zbiz.ca`, user GID
+  `1216804011183079`, in workspace GID `11298561585567`.
+- Verified the gateway exposes 80 MCP entries: 76 Asana operations plus four
+  prompts/resources, including `asana_get_user`, with zero probe diagnostics.
+- Ran a real Rocky read-only agent turn. Rocky loaded the Skill, called the
+  current-user tool, reported the correct identity and workspace, and made no
+  Asana writes.
+- Confirmed `rocky-asana-mcp.service` and `openclaw-gateway.service` active,
+  port 8080 bound only to `127.0.0.1`, and `https://rocky.zbiz.ca` returning
+  HTTP 200.
+- Rollback backups:
+  `/home/openclaw/.openclaw/backups/z-asana-agent-control-20260828-005151`
+  and `/home/openclaw/.openclaw/backups/asana-http-mcp-20260828-005400`.
