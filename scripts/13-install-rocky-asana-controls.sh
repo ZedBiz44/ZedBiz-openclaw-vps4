@@ -21,7 +21,7 @@ install -d -o openclaw -g openclaw -m 0700 "${backup_dir}"
 [[ -d "${skill_target}" ]] && cp -a "${skill_target}" "${backup_dir}/z-asana-agent-control" || true
 [[ -d "${legacy_target}" ]] && cp -a "${legacy_target}" "${backup_dir}/zedbiz-asana-agent-control" || true
 cp -a "${workspace}/AGENTS.md" "${backup_dir}/AGENTS.md"
-cp -a "${workspace}/TOOLS.md" "${backup_dir}/TOOLS.md"
+[[ -f "${workspace}/TOOLS.md" ]] && cp -a "${workspace}/TOOLS.md" "${backup_dir}/TOOLS.md" || true
 
 install -d -o openclaw -g openclaw -m 0755 "${skill_target}/agents"
 install -o openclaw -g openclaw -m 0644 "${staged_skill}/SKILL.md" "${skill_target}/SKILL.md"
@@ -30,10 +30,10 @@ if [[ -f "${staged_skill}/agents/openai.yaml" ]]; then
     "${staged_skill}/agents/openai.yaml" "${skill_target}/agents/openai.yaml"
 fi
 
-sed -i 's#skills/zedbiz-asana-agent-control/#skills/z-asana-agent-control/#g' \
-  "${workspace}/AGENTS.md" "${workspace}/TOOLS.md"
-sed -i 's/`zedbiz-asana-agent-control`/`z-asana-agent-control`/g' \
-  "${workspace}/AGENTS.md" "${workspace}/TOOLS.md"
+instruction_files=("${workspace}/AGENTS.md")
+[[ -f "${workspace}/TOOLS.md" ]] && instruction_files+=("${workspace}/TOOLS.md")
+sed -i 's#skills/zedbiz-asana-agent-control/#skills/z-asana-agent-control/#g' "${instruction_files[@]}"
+sed -i 's/`zedbiz-asana-agent-control`/`z-asana-agent-control`/g' "${instruction_files[@]}"
 
 if [[ -d "${legacy_target}" ]]; then
   resolved_legacy="$(readlink -f "${legacy_target}")"
@@ -43,10 +43,10 @@ if [[ -d "${legacy_target}" ]]; then
 fi
 
 chown -R openclaw:openclaw "${skill_target}"
-chown openclaw:openclaw "${workspace}/AGENTS.md" "${workspace}/TOOLS.md"
+chown openclaw:openclaw "${instruction_files[@]}"
 sudo -u openclaw test -r "${skill_target}/SKILL.md"
 grep -Fq 'name: z-asana-agent-control' "${skill_target}/SKILL.md"
 grep -Fq '1216804011183079' "${workspace}/AGENTS.md"
-grep -Fq '11298561585567' "${workspace}/TOOLS.md"
+grep -Fq '11298561585567' "${workspace}/AGENTS.md"
 
 echo "Rocky's z-asana-agent-control Skill is installed. Backup: ${backup_dir}"
