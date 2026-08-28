@@ -101,6 +101,9 @@ rm -f "${tmp_config}"
 if ! grep -q '^export PERCIFY_API_KEY=' "${gateway_wrapper}"; then
   sed -i "/^export DISCORD_BOT_TOKEN=/a export PERCIFY_API_KEY=\"\$(op read 'op://agent-rocky/percify-api-key/credential')\"" "${gateway_wrapper}"
 fi
+if ! grep -q '^export ASANA_ACCESS_TOKEN=' "${gateway_wrapper}"; then
+  sed -i "/^exec \/usr\/bin\/node/i export ASANA_ACCESS_TOKEN=\"\$(op read 'op:\/\/agent-rocky\/asana-api-key-rocky\/credential')\"" "${gateway_wrapper}"
+fi
 chown openclaw:openclaw "${gateway_wrapper}"
 chmod 0755 "${gateway_wrapper}"
 

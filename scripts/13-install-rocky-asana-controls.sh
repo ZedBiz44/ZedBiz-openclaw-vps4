@@ -6,55 +6,47 @@ if [[ "$(id -u)" -ne 0 ]]; then
   exit 1
 fi
 
-staged_skill="${1:-/tmp/zedbiz-asana-agent-control}"
+repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+staged_skill="${1:-${repo_dir}/skills/z-asana-agent-control}"
 workspace="/home/openclaw/.openclaw/workspace"
-skill_target="$workspace/skills/zedbiz-asana-agent-control"
+skill_target="${workspace}/skills/z-asana-agent-control"
+legacy_target="${workspace}/skills/zedbiz-asana-agent-control"
+timestamp="$(TZ=America/Edmonton date +%Y%m%d-%H%M%S)"
+backup_dir="/home/openclaw/.openclaw/backups/z-asana-agent-control-${timestamp}"
 
-[[ -f "$staged_skill/SKILL.md" ]] || { echo "Missing staged Asana skill" >&2; exit 1; }
+[[ -f "${staged_skill}/SKILL.md" ]] || { echo "Missing staged Asana skill." >&2; exit 1; }
+grep -Fq 'name: z-asana-agent-control' "${staged_skill}/SKILL.md"
 
-install -d -o openclaw -g openclaw -m 0755 "$skill_target/agents"
-install -o openclaw -g openclaw -m 0644 "$staged_skill/SKILL.md" "$skill_target/SKILL.md"
-if [[ -f "$staged_skill/agents/openai.yaml" ]]; then
+install -d -o openclaw -g openclaw -m 0700 "${backup_dir}"
+[[ -d "${skill_target}" ]] && cp -a "${skill_target}" "${backup_dir}/z-asana-agent-control" || true
+[[ -d "${legacy_target}" ]] && cp -a "${legacy_target}" "${backup_dir}/zedbiz-asana-agent-control" || true
+cp -a "${workspace}/AGENTS.md" "${backup_dir}/AGENTS.md"
+cp -a "${workspace}/TOOLS.md" "${backup_dir}/TOOLS.md"
+
+install -d -o openclaw -g openclaw -m 0755 "${skill_target}/agents"
+install -o openclaw -g openclaw -m 0644 "${staged_skill}/SKILL.md" "${skill_target}/SKILL.md"
+if [[ -f "${staged_skill}/agents/openai.yaml" ]]; then
   install -o openclaw -g openclaw -m 0644 \
-    "$staged_skill/agents/openai.yaml" "$skill_target/agents/openai.yaml"
+    "${staged_skill}/agents/openai.yaml" "${skill_target}/agents/openai.yaml"
 fi
 
-if ! grep -Fq '## Rocky Asana Identity' "$workspace/AGENTS.md"; then
-  cat >> "$workspace/AGENTS.md" <<'EOF'
+sed -i 's#skills/zedbiz-asana-agent-control/#skills/z-asana-agent-control/#g' \
+  "${workspace}/AGENTS.md" "${workspace}/TOOLS.md"
+sed -i 's/`zedbiz-asana-agent-control`/`z-asana-agent-control`/g' \
+  "${workspace}/AGENTS.md" "${workspace}/TOOLS.md"
 
-## Rocky Asana Identity
-
-- Agent name: Rocky
-- Asana user name: Rocky Zagent
-- Asana email: rocky@agents.zbiz.ca
-- Asana user GID: 1216804011183079
-- Required ZedBiz workspace GID: 11298561585567
-- Required tool route: PAT-backed OpenClaw MCP server named `asana`
-- Before any Asana task work, follow `skills/zedbiz-asana-agent-control/SKILL.md` and verify this identity.
-- Never use a Jack-authenticated Codex or ChatGPT Asana connector for Rocky's assigned work.
-EOF
+if [[ -d "${legacy_target}" ]]; then
+  resolved_legacy="$(readlink -f "${legacy_target}")"
+  expected_legacy="$(readlink -m "${legacy_target}")"
+  [[ "${resolved_legacy}" == "${expected_legacy}" ]] || { echo "Legacy target is not the expected directory." >&2; exit 1; }
+  rm -rf -- "${legacy_target}"
 fi
 
-if ! grep -Fq '## Rocky Asana MCP' "$workspace/TOOLS.md"; then
-  cat >> "$workspace/TOOLS.md" <<'EOF'
+chown -R openclaw:openclaw "${skill_target}"
+chown openclaw:openclaw "${workspace}/AGENTS.md" "${workspace}/TOOLS.md"
+sudo -u openclaw test -r "${skill_target}/SKILL.md"
+grep -Fq 'name: z-asana-agent-control' "${skill_target}/SKILL.md"
+grep -Fq '1216804011183079' "${workspace}/AGENTS.md"
+grep -Fq '11298561585567' "${workspace}/TOOLS.md"
 
-## Rocky Asana MCP
-
-- Server name: `asana`
-- Authentication: Rocky-specific PAT resolved from the `agent-rocky` 1Password vault at runtime
-- Asana identity: Rocky Zagent (`rocky@agents.zbiz.ca`)
-- User GID: `1216804011183079`
-- ZedBiz workspace GID: `11298561585567`
-- Verified exposure: 41 tools plus resources and prompts
-- Always resolve names to GIDs before task queries or updates.
-EOF
-fi
-
-chown -R openclaw:openclaw "$skill_target"
-chown openclaw:openclaw "$workspace/AGENTS.md" "$workspace/TOOLS.md"
-
-sudo -u openclaw test -r "$skill_target/SKILL.md"
-grep -Fq '1216804011183079' "$workspace/AGENTS.md"
-grep -Fq '11298561585567' "$workspace/TOOLS.md"
-
-echo "Rocky's Asana skill, identity, and PAT routing controls are installed"
+echo "Rocky's z-asana-agent-control Skill is installed. Backup: ${backup_dir}"

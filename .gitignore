@@ -1,2 +1,4 @@
 .playwright-cli/
 output/
+services/asana-http-mcp/dist/
+services/asana-http-mcp/node_modules/

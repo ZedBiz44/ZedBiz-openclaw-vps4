@@ -1,0 +1,7 @@
+interface:
+  display_name: "Z Asana Agent Control"
+  short_description: "Force correct Asana identity"
+  default_prompt: "Use $z-asana-agent-control to verify the agent's Asana identity and work only through the PAT-based MCP path."
+
+policy:
+  allow_implicit_invocation: true
