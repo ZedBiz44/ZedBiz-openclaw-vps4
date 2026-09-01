@@ -251,3 +251,21 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Rollback backups:
   `/home/openclaw/.openclaw/backups/z-asana-agent-control-20260828-005151`
   and `/home/openclaw/.openclaw/backups/asana-http-mcp-20260828-005400`.
+
+## 2026-09-01 Rocky Official Canva MCP
+
+- Added Canva's official remote MCP server at `https://mcp.canva.com/mcp` using
+  OpenClaw-managed OAuth and Streamable HTTP.
+- Did not use or expose the separate `canva-api-key` client secret in
+  1Password; the official MCP route manages its own OAuth client and token
+  lifecycle.
+- Verified `openclaw mcp status --verbose` reports Canva OAuth authorized and
+  `openclaw mcp doctor canva --probe` reports the connection healthy.
+- Restarted Rocky's gateway and ran a real isolated Rocky agent turn.
+- Rocky successfully called `canva__search-designs` and returned the current
+  design IDs for `PF_BrandGuide_V1`, `PF_Icon_JumpingFish`, and
+  `PF_Logo_Horizontal_JumpingFish`, with zero tool failures.
+- Added `scripts/22-configure-rocky-canva-mcp.sh` and the evergreen Canva
+  operating rules so the route and usage boundary are reproducible.
+- Live pre-change backup:
+  `/home/openclaw/.openclaw/backups/canva-mcp-20260901-01a05e43/openclaw.json`.

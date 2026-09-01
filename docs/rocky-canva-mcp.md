@@ -62,9 +62,15 @@ Completion requires all of the following:
 - OAuth status: authorized
 - Live doctor: passed with no issues
 - Live probe: thirty-three Canva tools, no diagnostics
-- Fresh Rocky read test: `canva__search-designs` returned `PF_BrandGuide_V1`, design ID `DAHT8KGrHog`
+- Fresh Rocky read test: `canva__search-designs` returned
+  `PF_BrandGuide_V1`, `PF_Icon_JumpingFish`, and
+  `PF_Logo_Horizontal_JumpingFish` with their real design IDs
 - No Canva content was created, edited, moved, commented on, exported, or deleted during verification
 
 ## Operational Note
 
-Rocky's primary `xai/grok-4.6` attempt timed out before its first model event while loading the combined tool surface. OpenClaw's configured fallback, `openrouter/anthropic/claude-sonnet-4.6`, then called Canva successfully. Canva was healthy; the timeout was in the primary model/tool-payload path. If this repeats in normal use, narrow Rocky's exposed Canva tools for the task or investigate the xAI first-event timeout separately.
+Rocky's first `xai/grok-4.6` attempt timed out before its first model event while
+loading the combined tool surface, and the configured Claude Sonnet fallback
+completed that initial Canva call. A later isolated retest completed directly on
+`xai/grok-4.6`, successfully called `canva__search-designs`, and reported zero
+tool failures. Canva and Rocky's primary model route are both currently working.

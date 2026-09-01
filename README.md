@@ -48,3 +48,4 @@ Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, 
 
 Rocky's Notion access uses one OAuth-backed hosted MCP connection with the full Notion toolset. Governed ZedBiz publication follows the current `z-notion-knowledge-publish` skill; the former internal-token helper and `rocky-notion-control` skill are retired.
 - Rocky's local `openai-whisper` skill is Ready without an API key. FFmpeg and the Whisper CLI are reproducibly installed through `scripts/21-install-rocky-media-tools.sh`.
+- Rocky's official Canva MCP is OAuth authorized and exposed inside real agent turns. A live `canva__search-designs` call succeeded on 2026-09-01.
