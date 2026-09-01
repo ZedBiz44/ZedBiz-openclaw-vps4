@@ -39,6 +39,7 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 - [Rocky Google Workspace gog CLI](scripts/18-install-rocky-gog.sh)
 - [Rocky restart API](scripts/20-install-rocky-restart-api.sh)
 - [Rocky local FFmpeg and Whisper tools](scripts/21-install-rocky-media-tools.sh)
+- [Rocky official Canva MCP](scripts/22-configure-rocky-canva-mcp.sh)
 - [Rocky Notion access record](docs/rocky-notion-access.md)
 
 ## Current Status
