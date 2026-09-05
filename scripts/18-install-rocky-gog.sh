@@ -6,7 +6,7 @@ if [[ "$(id -u)" -ne 0 ]]; then
   exit 1
 fi
 
-version="${GOG_VERSION:-0.34.1}"
+version="${GOG_VERSION:-0.38.1}"
 archive="gogcli_${version}_linux_amd64.tar.gz"
 base_url="https://github.com/openclaw/gogcli/releases/download/v${version}"
 work_dir="$(mktemp -d)"
@@ -60,6 +60,10 @@ set -a
 # shellcheck disable=SC1091
 source /home/openclaw/.config/gogcli/keyring.env
 set +a
+email_mode_file="/home/openclaw/.config/gogcli/email-mode"
+if [[ -r "$email_mode_file" ]] && [[ "$(tr -d '\r\n' < "$email_mode_file")" == "draft_only" ]]; then
+  set -- --gmail-no-send "$@"
+fi
 exec /home/openclaw/.local/secure-bin/gog-real "$@"
 EOF
 chown openclaw:openclaw "$wrapper"
