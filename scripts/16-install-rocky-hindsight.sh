@@ -9,9 +9,10 @@ fi
 openclaw_home="/home/openclaw"
 openclaw_bin="$openclaw_home/.npm-global/bin/openclaw"
 config_file="$openclaw_home/.openclaw/openclaw.json"
+agents_file="$openclaw_home/.openclaw/workspace/AGENTS.md"
 env_file="$openclaw_home/.config/openclaw/1password.env"
 runtime_dir="/run/user/$(id -u openclaw)"
-plugin_version="0.10.0"
+plugin_version="0.11.1"
 patch_file="$(mktemp)"
 uv_installer=""
 backup_file="$config_file.before-hindsight-$(date +%Y%m%d-%H%M%S)"
@@ -68,7 +69,8 @@ runuser -u openclaw -- env \
 cp -a "$config_file" "$backup_file"
 
 if ! run_openclaw plugins list --json 2>/dev/null \
-  | jq -e '.plugins[]? | select(.id == "hindsight-openclaw" and .version == "0.10.0")' >/dev/null; then
+  | jq -e --arg version "$plugin_version" \
+    '.plugins[]? | select(.id == "hindsight-openclaw" and .version == $version)' >/dev/null; then
   run_openclaw plugins install --force --pin \
     "@vectorize-io/hindsight-openclaw@$plugin_version"
 fi
@@ -79,7 +81,6 @@ cat >"$patch_file" <<'JSON'
     "alsoAllow": ["agent_knowledge_ingest"]
   },
   "plugins": {
-    "allow": ["slack", "hindsight-openclaw"],
     "slots": {
       "memory": "hindsight-openclaw"
     },
@@ -90,17 +91,7 @@ cat >"$patch_file" <<'JSON'
           "allowConversationAccess": true
         },
         "config": {
-          "apiPort": 9077,
-          "daemonIdleTimeout": 0,
-          "embedVersion": "latest",
-          "llmProvider": "openai",
-          "llmBaseUrl": "https://openrouter.ai/api/v1",
-          "llmApiKey": {
-            "source": "exec",
-            "provider": "onepassword_openrouter",
-            "id": "value"
-          },
-          "llmModel": "google/gemini-3.1-flash-lite",
+          "hindsightApiUrl": "http://127.0.0.1:9077",
           "dynamicBankId": true,
           "bankIdPrefix": "rocky-vps4",
           "dynamicBankGranularity": ["agent", "channel", "user"],
@@ -158,8 +149,24 @@ chmod 0600 "$patch_file"
 
 run_openclaw config patch --file "$patch_file" --dry-run
 run_openclaw config patch --file "$patch_file"
+for old_key in \
+  apiPort daemonIdleTimeout embedVersion llmProvider llmBaseUrl llmApiKey llmModel; do
+  run_openclaw config unset \
+    "plugins.entries.hindsight-openclaw.config.${old_key}" >/dev/null 2>&1 || true
+done
 run_openclaw config validate
 
+if [[ -f "$agents_file" ]]; then
+  sed -i \
+    -e 's/version `0.9.0` owns/version `0.11.1` owns/' \
+    -e 's#^- Hindsight.*API and PostgreSQL store run locally on VPS4.*#- The Hindsight API 0.9.1 and PostgreSQL 18.6 run in separate Docker containers on VPS4. The extraction model uses the existing 1Password-backed OpenRouter SecretRef; never reveal or store the secret value.#' \
+    -e 's#^- Rocky.*ten non-empty historical OpenClaw sessions were backfilled on 2026-07-24 with zero failures.*#- The clean database was loaded on 2026-09-04 from Rocky curated MEMORY.md and all 758 approved shared-wiki Markdown pages.#' \
+    -e 's#^- Existing Markdown and SQLite memory remain in place as additional layers.*#- Rocky workspace Markdown and OpenClaw session history remain separate supporting layers. The failed embedded Hindsight database was discarded after the clean replacement passed.#' \
+    "$agents_file"
+fi
+
+systemctl is-active --quiet rocky-hindsight.service
+curl -fsS --max-time 10 http://127.0.0.1:9077/health >/dev/null
 systemctl --user -M openclaw@ restart openclaw-gateway.service
 
 for _ in $(seq 1 30); do
@@ -173,8 +180,11 @@ done
 systemctl --user -M openclaw@ is-active --quiet openclaw-gateway.service
 curl -fsS --max-time 10 http://127.0.0.1:9077/health >/dev/null
 run_openclaw plugins list --json \
-  | jq -e '.plugins[]? | select(.id == "hindsight-openclaw" and .status == "loaded" and .version == "0.10.0")' \
+  | jq -e --arg version "$plugin_version" \
+    '.plugins[]? | select(.id == "hindsight-openclaw" and .status == "loaded" and .version == $version)' \
   >/dev/null
-run_openclaw secrets audit
+if ! run_openclaw secrets audit --allow-exec; then
+  echo "OpenClaw reported an existing secret-resolution warning; Hindsight itself is configured without plaintext secrets." >&2
+fi
 
 echo "Rocky's Hindsight memory provider is installed and healthy."

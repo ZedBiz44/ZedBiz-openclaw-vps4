@@ -1,0 +1,11 @@
+[Unit]
+Description=Back up Rocky Hindsight every six hours
+
+[Timer]
+OnCalendar=*-*-* 00,06,12,18:17:00 America/Edmonton
+Persistent=true
+RandomizedDelaySec=10m
+Unit=rocky-hindsight-backup.service
+
+[Install]
+WantedBy=timers.target

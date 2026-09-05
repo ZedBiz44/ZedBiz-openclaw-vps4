@@ -269,3 +269,30 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
   operating rules so the route and usage boundary are reproducible.
 - Live pre-change backup:
   `/home/openclaw/.openclaw/backups/canva-mcp-20260901-01a05e43/openclaw.json`.
+
+## 2026-09-04 Rocky Fresh Hindsight Production Database
+
+- Replaced Rocky's failed embedded `pg0` store with a fresh PostgreSQL 18.6
+  database and Hindsight API 0.9.1 in separate Docker containers on VPS4.
+- Enabled PostgreSQL checksums, `fsync`, synchronous commits, full-page writes,
+  automatic container restart, five-minute health checks, and encrypted
+  six-hour database exports with seven-day local retention.
+- Kept PostgreSQL private to Docker and exposed Hindsight only on VPS4 loopback
+  at `127.0.0.1:9077`.
+- Connected OpenClaw 2026.8.2 and Hindsight plugin 0.11.1 to the external API.
+  Preserved Rocky's existing plugin permissions after catching and correcting
+  an installer patch that would have narrowed the allowlist.
+- Loaded 759 source documents with stable replace-in-place IDs: Rocky's
+  `MEMORY.md` and all 758 Markdown pages in the shared Memory Wiki.
+- Passed direct save/recall before and after restart, encrypted backup
+  validation, a full temporary-database restore, and a real Rocky agent recall
+  without file reads or tools.
+- The final restore contained all 760 documents and 6,075 memory units captured
+  by that backup, including the exact restart test memory. Synthetic test
+  documents were then removed from the live database.
+- Removed the discarded embedded `pg0` copies and old embedded-daemon files
+  after the replacement passed. A protected copy of the backup decryption key
+  is stored outside VPS4 under Jack's Windows account.
+- Google Drive upload is ready in the backup script but remains blocked by the
+  pre-existing human gate: VPS4 has no approved Google Desktop OAuth client
+  credential and `jack@zbiz.work` has no saved Google authorization.

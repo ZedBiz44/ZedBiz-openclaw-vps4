@@ -36,6 +36,9 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 - [Rocky Telegram and Slack channels](scripts/14-configure-rocky-telegram-slack.sh)
 - [Rocky ZedBiz wiki skills](scripts/15-install-rocky-wiki-skills.sh)
 - [Rocky Hindsight memory](scripts/16-install-rocky-hindsight.sh)
+- [Rocky production Hindsight database and backups](scripts/26-install-rocky-hindsight-production.sh)
+- [Rocky Hindsight production and backup SOP](docs/rocky-hindsight-production-and-backup-sop.md)
+- [Rocky Hindsight production verification](scripts/28-test-rocky-hindsight-production.sh)
 - [Rocky Google Workspace gog CLI](scripts/18-install-rocky-gog.sh)
 - [Rocky restart API](scripts/20-install-rocky-restart-api.sh)
 - [Rocky local FFmpeg and Whisper tools](scripts/21-install-rocky-media-tools.sh)
@@ -44,7 +47,7 @@ Technical source of truth for Rocky and all OpenClaw work on ZedBiz VPS4.
 
 ## Current Status
 
-Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, browser device pairing, browser chat, shared-wiki sync, ZedBiz wiki-research skills, Hindsight conversational memory, email inbox, PAT-backed Asana identity, Telegram bot connection and inbound delivery, Slack Socket Mode connection and two-way DM delivery, virtual-assistant profile, restart dashboard integration, and reboot recovery are verified. Hindsight automatically retains and recalls Rocky's conversations through isolated dynamic banks, and Rocky's historical non-empty sessions have been backfilled. Telegram still needs a final human-visible outbound reply confirmation. Outbound email still needs an explicitly approved recipient/message test. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).
+Rocky's native Gateway, Grok OAuth, OpenRouter fallbacks, 1Password SecretRefs, private VPS1 tunnel, Caddy route, public HTTPS, browser device pairing, browser chat, shared-wiki sync, ZedBiz wiki-research skills, Hindsight conversational memory, email inbox, PAT-backed Asana identity, Telegram bot connection and inbound delivery, Slack Socket Mode connection and two-way DM delivery, virtual-assistant profile, restart dashboard integration, and reboot recovery are verified. Hindsight now uses a fresh PostgreSQL database in Docker on VPS4, automatically retains and recalls Rocky's conversations, and contains a traceable baseline loaded from Rocky's `MEMORY.md` and all 758 shared-wiki Markdown pages. Telegram still needs a final human-visible outbound reply confirmation. Outbound email still needs an explicitly approved recipient/message test. Google Drive backup upload still requires the approved Desktop OAuth client and Jack's Google consent; encrypted six-hour local backups are active meanwhile. Rocky is live at [rocky.zbiz.ca](https://rocky.zbiz.ca).
 
 Rocky's Notion access uses one OAuth-backed hosted MCP connection with the full Notion toolset. Governed ZedBiz publication follows the current `z-notion-knowledge-publish` skill; the former internal-token helper and `rocky-notion-control` skill are retired.
 - Rocky's local `openai-whisper` skill is Ready without an API key. FFmpeg and the Whisper CLI are reproducibly installed through `scripts/21-install-rocky-media-tools.sh`.

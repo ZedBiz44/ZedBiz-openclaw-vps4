@@ -1,0 +1,11 @@
+[Unit]
+Description=Check Rocky Hindsight health every five minutes
+
+[Timer]
+OnBootSec=3m
+OnUnitActiveSec=5m
+Persistent=true
+Unit=rocky-hindsight-health.service
+
+[Install]
+WantedBy=timers.target

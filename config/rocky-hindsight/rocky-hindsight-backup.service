@@ -1,0 +1,11 @@
+[Unit]
+Description=Create and verify Rocky Hindsight database backup
+Requires=rocky-hindsight.service
+After=rocky-hindsight.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/rocky-hindsight-backup
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7

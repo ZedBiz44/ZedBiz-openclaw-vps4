@@ -1,0 +1,19 @@
+[Unit]
+Description=Rocky Hindsight API and database
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStartPre=/usr/local/sbin/rocky-hindsight-runtime-env
+ExecStart=/usr/bin/docker compose --env-file /run/rocky-hindsight/runtime.env -f /opt/rocky-hindsight/docker-compose.yml up -d --wait
+ExecReload=/usr/local/sbin/rocky-hindsight-runtime-env
+ExecReload=/usr/bin/docker compose --env-file /run/rocky-hindsight/runtime.env -f /opt/rocky-hindsight/docker-compose.yml up -d --wait
+ExecStop=/usr/bin/docker compose --env-file /run/rocky-hindsight/runtime.env -f /opt/rocky-hindsight/docker-compose.yml stop -t 120
+TimeoutStartSec=900
+TimeoutStopSec=180
+
+[Install]
+WantedBy=multi-user.target

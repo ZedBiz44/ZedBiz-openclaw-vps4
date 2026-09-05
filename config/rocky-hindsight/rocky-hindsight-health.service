@@ -1,0 +1,8 @@
+[Unit]
+Description=Verify Rocky Hindsight database and API health
+Requires=rocky-hindsight.service
+After=rocky-hindsight.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/rocky-hindsight-health

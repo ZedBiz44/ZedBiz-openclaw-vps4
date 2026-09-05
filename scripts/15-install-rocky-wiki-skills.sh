@@ -50,12 +50,12 @@ if ! grep -Fq 'Hindsight is Rocky'\''s active external conversational-memory pro
 ### Current Verified Memory Architecture
 
 - Hindsight is Rocky's active external conversational-memory provider. It is third-party provider software hosted locally on VPS4, not a third-party cloud storage service.
-- OpenClaw plugin `hindsight-openclaw` version `0.9.0` owns the active memory slot. Automatic retain and recall are enabled.
-- Hindsight's API and PostgreSQL store run locally on VPS4. Its extraction model uses Rocky's existing 1Password-backed OpenRouter SecretRef; never reveal or store the secret value.
+- OpenClaw plugin `hindsight-openclaw` version `0.11.1` owns the active memory slot. Automatic retain and recall are enabled.
+- Hindsight API 0.9.1 and PostgreSQL 18.6 run in separate Docker containers on VPS4. Its extraction model uses Rocky's existing 1Password-backed OpenRouter SecretRef; never reveal or store the secret value.
 - Memory banks are dynamically isolated by agent, channel, and user when stable identities are available.
-- Rocky's ten non-empty historical OpenClaw sessions were backfilled on 2026-07-24 with zero failures.
+- The clean database was loaded on 2026-09-04 from Rocky's curated `MEMORY.md` and all 758 approved shared-wiki Markdown pages.
 - The Shared Memory Wiki is a separate, read-only reviewed-knowledge layer synchronized from VPS1.
-- Existing Markdown and SQLite memory remain in place as additional layers.
+- Rocky's workspace Markdown and OpenClaw session history remain separate supporting layers. The failed embedded Hindsight database was discarded after the clean replacement passed.
 - If asked whether Rocky has an external memory provider, answer yes and describe this verified architecture. Do not claim that local workspace files are the only memory system.
 EOF
 fi

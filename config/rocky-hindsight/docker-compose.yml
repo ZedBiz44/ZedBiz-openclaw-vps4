@@ -1,0 +1,77 @@
+name: rocky-hindsight
+
+services:
+  db:
+    image: pgvector/pgvector:pg18@sha256:2ba9ca5f2e7daa0f0e7723cba1ee9167bab54efd3640516a44ac1a928dd67e7a
+    container_name: rocky-hindsight-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hindsight_user
+      POSTGRES_PASSWORD: ${HINDSIGHT_DB_PASSWORD:?missing database password}
+      POSTGRES_DB: hindsight_db
+      PGDATA: /var/lib/postgresql/18/docker
+      POSTGRES_INITDB_ARGS: --data-checksums
+    command:
+      - postgres
+      - -c
+      - fsync=on
+      - -c
+      - synchronous_commit=on
+      - -c
+      - full_page_writes=on
+      - -c
+      - shared_buffers=256MB
+    shm_size: 1gb
+    volumes:
+      - /opt/rocky-hindsight/data/postgres:/var/lib/postgresql/18/docker
+    networks:
+      - memory
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hindsight_user -d hindsight_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  api:
+    image: ghcr.io/vectorize-io/hindsight:0.9.1@sha256:aeb0831e2ec55e659d5e69baa064c1278113e523513b8f60a1f09c5cabe59b9b
+    container_name: rocky-hindsight-api
+    restart: unless-stopped
+    environment:
+      HINDSIGHT_API_DATABASE_URL: postgresql://hindsight_user:${HINDSIGHT_DB_PASSWORD}@db:5432/hindsight_db
+      HINDSIGHT_API_MIGRATION_DATABASE_URL: postgresql://hindsight_user:${HINDSIGHT_DB_PASSWORD}@db:5432/hindsight_db
+      HINDSIGHT_API_DATABASE_SCHEMA: public
+      HINDSIGHT_API_RUN_MIGRATIONS_ON_STARTUP: "true"
+      HINDSIGHT_API_LLM_PROVIDER: openai
+      HINDSIGHT_API_LLM_BASE_URL: https://openrouter.ai/api/v1
+      HINDSIGHT_API_LLM_API_KEY: ${HINDSIGHT_API_LLM_API_KEY:?missing Hindsight model key}
+      HINDSIGHT_API_LLM_MODEL: google/gemini-3.1-flash-lite
+      HINDSIGHT_API_EMBEDDINGS_PROVIDER: local
+      HINDSIGHT_API_RERANKER_PROVIDER: flashrank
+      HINDSIGHT_API_RERANKER_FLASHRANK_MODEL: ms-marco-TinyBERT-L-2-v2
+      HINDSIGHT_API_RERANKER_MAX_CANDIDATES: "50"
+      HINDSIGHT_API_WORKER_MAX_SLOTS: "4"
+      HINDSIGHT_API_CONSOLIDATION_WORKER_MAX_SLOTS: "1"
+      HINDSIGHT_API_PORT: "8888"
+      HINDSIGHT_API_HOST: 0.0.0.0
+      HINDSIGHT_API_LOG_LEVEL: info
+      HINDSIGHT_API_OTEL_DEPLOYMENT_ENVIRONMENT: production
+    ports:
+      - 127.0.0.1:9077:8888
+    volumes:
+      - /opt/rocky-hindsight/cache:/home/hindsight/.cache
+    networks:
+      - memory
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8888/health', timeout=5).read()"]
+      interval: 15s
+      timeout: 8s
+      retries: 20
+      start_period: 120s
+
+networks:
+  memory:
+    driver: bridge
