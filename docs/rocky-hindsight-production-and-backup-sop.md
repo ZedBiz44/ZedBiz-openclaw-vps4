@@ -1,6 +1,6 @@
 # Rocky Hindsight Production And Backup SOP
 
-Date: 2026-09-04 | Agent: Cody | Status: Implemented
+Date: 2026-09-16 | Agent: Cody | Status: Implemented
 
 ## Approved Architecture
 
@@ -8,13 +8,14 @@ Date: 2026-09-04 | Agent: Cody | Status: Implemented
 - The database runs in its own Docker container with permanent storage on VPS4.
 - Hindsight runs in a second Docker container and is reachable only from VPS4.
 - Rocky's OpenClaw plugin connects to `http://127.0.0.1:9077`.
+- Rocky uses one Hindsight bank per communication provider. Discord conversations share one Discord bank, and OpenClaw Web UI conversations share one Web UI bank. Rooms, threads, and individual users do not create separate banks.
 - The retired embedded database and daemon files were removed after the clean replacement passed its restore test. Hostinger's independent VPS backup remains the only route to that discarded history.
 
 ## Safety Controls
 
 - Confirmed writes, full-page protection, and database checksums are enabled.
 - Docker and both containers restart automatically after a VPS restart.
-- A health check verifies the database, the Hindsight API, crash-safe write settings, and consolidation health every five minutes. Hindsight 0.10 bank IDs are URL-encoded before bank-stat requests; queued and historical failed-operation counters are reported without treating old counters as a new outage.
+- A health check verifies the database, the Hindsight API, and the safe-write settings every five minutes.
 - A database export runs every six hours at low CPU and disk priority.
 - Every export is validated, checksummed, encrypted, and retained locally for seven days.
 - Google Drive upload begins only after the approved Google Desktop OAuth client is installed, `jack@zbiz.work` completes Google consent, and the approved destination folder ID is installed.
@@ -50,3 +51,4 @@ Date: 2026-09-04 | Agent: Cody | Status: Implemented
 - Rocky's normal OpenClaw agent route recalled both the synthetic restart marker and the final-authority rule without tools or file reads.
 - The synthetic test documents were removed from the live database after verification.
 - Google Drive is not yet connected because VPS4 has no approved Google Desktop OAuth client credential or saved Google authorization.
+
