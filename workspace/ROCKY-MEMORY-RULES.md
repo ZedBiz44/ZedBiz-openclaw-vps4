@@ -3,10 +3,10 @@
 ## Current Verified Architecture
 
 - Hindsight is Rocky's active external conversational-memory provider. It is third-party provider software hosted locally on VPS4, not third-party cloud storage.
-- OpenClaw plugin `hindsight-openclaw` version `0.9.0` owns the memory slot with automatic retain and recall enabled.
+- OpenClaw plugin `hindsight-openclaw` version `0.12.0` owns the memory slot with automatic retain and recall enabled.
 - Hindsight's API and PostgreSQL data store run locally on VPS4.
 - Its extraction model uses Rocky's protected 1Password-backed OpenRouter SecretRef. Never reveal or retain the secret value.
-- Banks are dynamically isolated by agent, channel, and user whenever stable identities are available.
+- Banks are separated only by communication provider. All Rocky conversations on Discord share one bank, and all Rocky conversations through the OpenClaw Web UI share another bank. Individual users, rooms, direct messages, and threads do not create additional banks.
 - Ten non-empty historical Rocky sessions were backfilled on 2026-07-24 with zero failures.
 - Existing Markdown and SQLite memory remain active as additional layers.
 - If asked whether Rocky has an external memory provider, answer yes and describe this verified architecture. Do not claim that local workspace files are the only memory system.
@@ -34,7 +34,7 @@
 ## Privacy And Isolation
 
 - Never store credentials, tokens, private keys, recovery details, or secret values in memory.
-- Do not deliberately move one VA's private working history into another VA's bank, channel, or response.
+- Provider banks are shared by everyone using that provider. Do not retain credentials, personal secrets, or other information that should not be available to another user of the same provider.
 - Keep raw transcripts, disposable calculations, temporary troubleshooting chatter, and unverified claims out of durable memory.
 
 ## Verification
@@ -42,3 +42,4 @@
 - Do not claim a memory was saved until the retain operation or bank listing proves it.
 - Do not claim recall works until a separate conversation retrieves the expected fact.
 - Do not claim wiki access works until a real search returns the expected source-backed page.
+
