@@ -6,10 +6,16 @@ set -euo pipefail
 curl -fsS --max-time 10 http://127.0.0.1:9077/health \
   | jq -e '.status == "healthy" and .database == "connected"' >/dev/null
 
+failed_operations_total=0
+pending_operations_total=0
 while IFS= read -r bank_id; do
-  curl -fsS --max-time 15 \
-    "http://127.0.0.1:9077/v1/default/banks/$bank_id/stats" \
-    | jq -e '.failed_operations == 0 and .failed_consolidation == 0' >/dev/null
+  encoded_bank_id="$(jq -nr --arg value "$bank_id" '$value | @uri')"
+  stats="$(curl -fsS --max-time 15 \
+    "http://127.0.0.1:9077/v1/default/banks/$encoded_bank_id/stats")"
+  jq -e '.pending_consolidation == 0 and .failed_consolidation == 0' \
+    <<<"$stats" >/dev/null
+  failed_operations_total=$((failed_operations_total + $(jq -r '.failed_operations // 0' <<<"$stats")))
+  pending_operations_total=$((pending_operations_total + $(jq -r '.pending_operations // 0' <<<"$stats")))
 done < <(
   curl -fsS --max-time 15 http://127.0.0.1:9077/v1/default/banks \
     | jq -r '.banks[].bank_id'
@@ -22,4 +28,5 @@ grep -Fqx 'fsync=on' <<<"$settings"
 grep -Fqx 'full_page_writes=on' <<<"$settings"
 grep -Fqx 'synchronous_commit=on' <<<"$settings"
 
-echo "Rocky Hindsight database and API are healthy; safe-write settings are enabled."
+echo "Rocky Hindsight database and API are healthy; safe-write settings are enabled. Historical failed operations across dynamic banks: $failed_operations_total. Current queued operations: $pending_operations_total."
+

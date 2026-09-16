@@ -14,7 +14,7 @@ Date: 2026-09-04 | Agent: Cody | Status: Implemented
 
 - Confirmed writes, full-page protection, and database checksums are enabled.
 - Docker and both containers restart automatically after a VPS restart.
-- A health check verifies the database, the Hindsight API, and the safe-write settings every five minutes.
+- A health check verifies the database, the Hindsight API, crash-safe write settings, and consolidation health every five minutes. Hindsight 0.10 bank IDs are URL-encoded before bank-stat requests; queued and historical failed-operation counters are reported without treating old counters as a new outage.
 - A database export runs every six hours at low CPU and disk priority.
 - Every export is validated, checksummed, encrypted, and retained locally for seven days.
 - Google Drive upload begins only after the approved Google Desktop OAuth client is installed, `jack@zbiz.work` completes Google consent, and the approved destination folder ID is installed.
@@ -43,7 +43,7 @@ Date: 2026-09-04 | Agent: Cody | Status: Implemented
 
 ## Verified Production Result
 
-- Hindsight API `0.9.1`, Hindsight OpenClaw plugin `0.11.1`, and PostgreSQL `18.6` are active.
+- Hindsight API `0.10.0`, Hindsight OpenClaw plugin `0.12.0`, and PostgreSQL `18.6` are active.
 - Rocky's baseline load completed with 759 documents and zero failed loads: one `MEMORY.md` plus 758 shared-wiki Markdown pages.
 - Direct Hindsight recall passed before and after a full Hindsight service restart in under one second during the final run.
 - The encrypted backup restored into a separate temporary database with all 760 documents and 6,075 memory units present at backup time; the exact test memory was readable in the restored copy.

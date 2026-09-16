@@ -34,7 +34,7 @@ services:
       start_period: 30s
 
   api:
-    image: ghcr.io/vectorize-io/hindsight:0.9.1@sha256:aeb0831e2ec55e659d5e69baa064c1278113e523513b8f60a1f09c5cabe59b9b
+    image: ghcr.io/vectorize-io/hindsight:0.10.0@sha256:3edcb6165cefdeaa6721dd0fce43cfd13b7a9c346ce0d2c5f4b4bf7bc3c8ac0b
     container_name: rocky-hindsight-api
     restart: unless-stopped
     environment:
@@ -75,3 +75,4 @@ services:
 networks:
   memory:
     driver: bridge
+
