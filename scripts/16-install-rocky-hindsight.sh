@@ -12,7 +12,7 @@ config_file="$openclaw_home/.openclaw/openclaw.json"
 agents_file="$openclaw_home/.openclaw/workspace/AGENTS.md"
 env_file="$openclaw_home/.config/openclaw/1password.env"
 runtime_dir="/run/user/$(id -u openclaw)"
-plugin_version="0.11.1"
+plugin_version="0.12.0"
 patch_file="$(mktemp)"
 uv_installer=""
 backup_file="$config_file.before-hindsight-$(date +%Y%m%d-%H%M%S)"
@@ -94,7 +94,7 @@ cat >"$patch_file" <<'JSON'
           "hindsightApiUrl": "http://127.0.0.1:9077",
           "dynamicBankId": true,
           "bankIdPrefix": "rocky-vps4",
-          "dynamicBankGranularity": ["agent", "channel", "user"],
+          "dynamicBankGranularity": ["provider"],
           "retainTags": [
             "source_system:openclaw",
             "agent:rocky",
@@ -128,8 +128,8 @@ cat >"$patch_file" <<'JSON'
             {"key": "task", "type": "text", "description": "An assignment, decision, status, blocker or handoff"}
           ],
           "retainMission": "Retain durable user preferences, decisions, corrections, assignments, project context, client context, task status, blockers, lessons learned and handoff cues. Do not retain secrets, credentials, raw logs, temporary troubleshooting noise, trivial chatter or unsupported claims.",
-          "observationsMission": "Synthesize stable preferences, recurring operating patterns, active projects, verified decisions, reliable lessons and unresolved handoffs. Keep people and private VA work isolated by the current bank.",
-          "bankMission": "Rocky is the ZedBiz virtual assistant. Use memory to provide continuity while respecting user and channel isolation. Verify current facts against live systems, GitHub, the Shared Memory Wiki and Notion before acting."
+          "observationsMission": "Synthesize stable preferences, recurring operating patterns, active projects, verified decisions, reliable lessons and unresolved handoffs within the current communication provider.",
+          "bankMission": "Rocky is the ZedBiz virtual assistant. Use one shared memory bank for each communication provider, such as Discord or the OpenClaw Web UI. Verify current facts against live systems, GitHub, the Shared Memory Wiki and Notion before acting."
         }
       }
     }
@@ -158,8 +158,9 @@ run_openclaw config validate
 
 if [[ -f "$agents_file" ]]; then
   sed -i \
-    -e 's/version `0.9.0` owns/version `0.11.1` owns/' \
-    -e 's#^- Hindsight.*API and PostgreSQL store run locally on VPS4.*#- The Hindsight API 0.9.1 and PostgreSQL 18.6 run in separate Docker containers on VPS4. The extraction model uses the existing 1Password-backed OpenRouter SecretRef; never reveal or store the secret value.#' \
+    -e 's/version `0.9.0` owns/version `0.12.0` owns/' \
+    -e 's/version `0.11.1` owns/version `0.12.0` owns/' \
+    -e 's#^- Hindsight.*API and PostgreSQL store run locally on VPS4.*#- The Hindsight API 0.10.0 and PostgreSQL 18.6 run in separate Docker containers on VPS4. The extraction model uses the existing 1Password-backed OpenRouter SecretRef; never reveal or store the secret value.#' \
     -e 's#^- Rocky.*ten non-empty historical OpenClaw sessions were backfilled on 2026-07-24 with zero failures.*#- The clean database was loaded on 2026-09-04 from Rocky curated MEMORY.md and all 758 approved shared-wiki Markdown pages.#' \
     -e 's#^- Existing Markdown and SQLite memory remain in place as additional layers.*#- Rocky workspace Markdown and OpenClaw session history remain separate supporting layers. The failed embedded Hindsight database was discarded after the clean replacement passed.#' \
     "$agents_file"
@@ -188,3 +189,4 @@ if ! run_openclaw secrets audit --allow-exec; then
 fi
 
 echo "Rocky's Hindsight memory provider is installed and healthy."
+
