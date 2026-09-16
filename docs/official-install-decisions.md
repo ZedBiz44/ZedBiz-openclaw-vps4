@@ -27,7 +27,7 @@ date: 2026-07-22 | agent: Cody | status: Active
 - Use Hindsight as Rocky's conversational working-memory layer, with automatic retention and recall, while preserving existing Markdown and SQLite memory files.
 - Use Notion OAuth/MCP only through an OpenClaw read-only tool filter.
 - Resolve Rocky's internal Notion integration token from 1Password at runtime and permit writes only through a logged page-ID allowlist helper.
-- Use dynamic Hindsight banks scoped by agent, channel, and user so a stable channel identity does not share conversational recall with another user.
+- Use dynamic Hindsight banks scoped only by communication provider during the approved trial. Rooms, threads, and individual users on the same provider share that provider's bank, while Discord and the OpenClaw Web UI remain separate.
 - Run Hindsight locally on VPS4 and resolve its extraction model through Rocky's existing 1Password-backed OpenRouter SecretRef.
 - Backfill historical OpenClaw sessions once, record the checkpoint, and verify recall after both a new-session reset and a full server reboot.
 
@@ -40,3 +40,4 @@ date: 2026-07-22 | agent: Cody | status: Active
 - Do not copy Hermes or Ruby authentication files into OpenClaw.
 - Do not store credentials in GitHub, Notion, logs, or SOP examples.
 - Do not run automatic repair commands without reviewing normal diagnostic output first.
+
