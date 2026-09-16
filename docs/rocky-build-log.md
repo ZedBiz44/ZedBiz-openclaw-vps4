@@ -296,3 +296,16 @@ Slack is complete: Socket Mode, inbound DM events, Grok processing, and outbound
 - Google Drive upload is ready in the backup script but remains blocked by the
   pre-existing human gate: VPS4 has no approved Google Desktop OAuth client
   credential and `jack@zbiz.work` has no saved Google authorization.
+
+## 2026-09-16 Rocky Provider-Based Hindsight Bank Trial
+
+- Changed Rocky's dynamic bank granularity from agent/channel/user to provider
+  only. Discord now resolves to one shared provider bank and the OpenClaw Web
+  UI resolves to a separate provider bank.
+- Kept automatic retention and automatic recall enabled.
+- Updated the live bank and observation missions to describe provider sharing.
+- Verified OpenClaw configuration, restarted the Gateway, confirmed the Gateway
+  active, and confirmed the Hindsight API healthy with its database connected.
+- Updated the repeatable install scripts and live Rocky memory rules so later
+  maintenance does not restore the retired channel-and-user bank pattern.
+
