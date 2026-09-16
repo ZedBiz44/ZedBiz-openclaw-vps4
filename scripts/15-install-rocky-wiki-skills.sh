@@ -50,9 +50,9 @@ if ! grep -Fq 'Hindsight is Rocky'\''s active external conversational-memory pro
 ### Current Verified Memory Architecture
 
 - Hindsight is Rocky's active external conversational-memory provider. It is third-party provider software hosted locally on VPS4, not a third-party cloud storage service.
-- OpenClaw plugin `hindsight-openclaw` version `0.11.1` owns the active memory slot. Automatic retain and recall are enabled.
-- Hindsight API 0.9.1 and PostgreSQL 18.6 run in separate Docker containers on VPS4. Its extraction model uses Rocky's existing 1Password-backed OpenRouter SecretRef; never reveal or store the secret value.
-- Memory banks are dynamically isolated by agent, channel, and user when stable identities are available.
+- OpenClaw plugin `hindsight-openclaw` version `0.12.0` owns the active memory slot. Automatic retain and recall are enabled.
+- Hindsight API 0.10.0 and PostgreSQL 18.6 run in separate Docker containers on VPS4. Its extraction model uses Rocky's existing 1Password-backed OpenRouter SecretRef; never reveal or store the secret value.
+- Memory banks are separated only by communication provider. Rooms, threads, and individual users on the same provider share that provider's bank.
 - The clean database was loaded on 2026-09-04 from Rocky's curated `MEMORY.md` and all 758 approved shared-wiki Markdown pages.
 - The Shared Memory Wiki is a separate, read-only reviewed-knowledge layer synchronized from VPS1.
 - Rocky's workspace Markdown and OpenClaw session history remain separate supporting layers. The failed embedded Hindsight database was discarded after the clean replacement passed.
@@ -72,3 +72,4 @@ test -r "$workspace/shared-memory-wiki/index.md"
 grep -Fq '# Wiki Index' "$workspace/shared-memory-wiki/index.md"
 
 echo "Rocky's current ZedBiz knowledge-routing and wiki-research skills are installed."
+
