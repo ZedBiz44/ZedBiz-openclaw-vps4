@@ -1,0 +1,12 @@
+[
+  {
+    "agent": "rocky",
+    "path": "/home/openclaw/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "a503d55a1c0309a8a02f8cea0c5ec1a289d6a93244779700348f12f2c66ffdf6",
+    "candidate_sha": "7ad86f4095258918a8b3cfbc71ee881e19829a87cb96454edcdeb7d9b155a225",
+    "old_chars": 16187,
+    "new_chars": 17679,
+    "merged_sections": [],
+    "retained_special_routes": []
+  }
+]
