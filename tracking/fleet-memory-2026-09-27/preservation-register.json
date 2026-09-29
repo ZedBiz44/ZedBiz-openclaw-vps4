@@ -1,0 +1,310 @@
+[
+  {
+    "agent": "amanda",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "e3a1462ea6bcbb0dfafb9fad253e8d047e7fa6ee35911c2b66c9d45e706a2d9b",
+    "old_chars": 19713,
+    "new_chars": 19930,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory and knowledge boundaries"
+    ],
+    "retained_special_routes": [
+      "- On the Codex agent runtime, do not assume LanceDB was injected automatically. Before answering about any prior status, decision, approval, preference, previous work, or named ongoing item, use `gateway_exec` to run `openclaw ltm search \"<short task query>\" --limit 5` and inspect the returned records.",
+      "- Prefer updates over duplicate activity records; verify provider writes with `openclaw ltm search`.",
+      "- Promote stable reusable knowledge to Memory Wiki. Publish human-facing Z-Knowledge only through the authorized Notion workflow."
+    ],
+    "initial_candidate_sha": "6a29894cf292303e1704d8c35eb08acce1de36f322409a89da2ec56cacc909c1",
+    "deployed_sha": "a7930a12b1f1eecbb9f2a11c0cb97cbffc91cfbee2414eb805bfb1030cfd3d43",
+    "deployed_utf16_chars": 19951,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "edith",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "b3d783fff3d1c99569320d49019ee759972ff450f61a1914eae63796dd1cf9c5",
+    "old_chars": 19697,
+    "new_chars": 19201,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory and continuity",
+      "daily memory rule"
+    ],
+    "retained_special_routes": [
+      "- Continued Markdown or SQLite growth is not proof of a Mem0 failure. Verify the provider's actual recall or store route."
+    ],
+    "initial_candidate_sha": "e4664924d634b4c9d9c5434e210d1607274cc28bad0586d76dbff52b344058e4",
+    "deployed_sha": "d0ccfc08b1ee22a2517fe63404f536267aaf1b117b2d6a4e48a7b58ad2cc0b41",
+    "deployed_utf16_chars": 19240,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "frank",
+    "path": "/root/.openclaw-frank/workspace/AGENTS.md",
+    "baseline_sha": "aed5beed6afcc824fb8049d89af9a73fbdb7744b7632fd55851472693bf4fa84",
+    "old_chars": 19564,
+    "new_chars": 18503,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory rules",
+      "memory and knowledge"
+    ],
+    "retained_special_routes": [
+      "- If Jack says \u201cZ-Knowledge,\u201d route the item to the Notion Z-Knowledge system. Promote stable, reusable knowledge to Memory Wiki when appropriate."
+    ],
+    "initial_candidate_sha": "6d7ca5d8789f6958ad07d799e79254d679edcbae8387c697cb6f1f20eaac0b5f",
+    "deployed_sha": "6d7ca5d8789f6958ad07d799e79254d679edcbae8387c697cb6f1f20eaac0b5f",
+    "deployed_utf16_chars": 18503,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "gohzed",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "bcc2999fa84ccf183faeda4877e73d52043ed77dcf115d780d4b4c7e354c078b",
+    "old_chars": 17750,
+    "new_chars": 16375,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory and knowledge discipline",
+      "provider and durable knowledge alignment",
+      "daily memory rule"
+    ],
+    "retained_special_routes": [
+      "- Do not declare the provider write tool unavailable merely because it is missing from a general retained-knowledge interface or was not used automatically. Attempt the active provider's explicit store or ingest tool first. If it cannot run, name the exact tool and error or policy block. Automatic turn retention is not proof of explicit capture. For Hindsight, verify the asynchronous operation completed or the memory appears in the bank; an immediate empty recall is not proof of failure.",
+      "- Promote stable, reusable, operational, or source-backed knowledge to Memory Wiki. Also publish to Z-Knowledge when Jack or the team must review, decide, use, or act from it."
+    ],
+    "initial_candidate_sha": "3dd8cbb641a1b8d61416f20bed2a1f285a176a5a35b5f56d0a550dd3b76c0982",
+    "deployed_sha": "3dd8cbb641a1b8d61416f20bed2a1f285a176a5a35b5f56d0a550dd3b76c0982",
+    "deployed_utf16_chars": 16375,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "grogar",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "fc761d42929e488c479d0b16b9076ce181bf0f141facb6f3294df41fe9c05603",
+    "old_chars": 16875,
+    "new_chars": 15302,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory and knowledge discipline",
+      "provider and durable knowledge alignment",
+      "daily memory rule"
+    ],
+    "retained_special_routes": [
+      "- Do not declare the provider write tool unavailable merely because it is missing from a general retained-knowledge interface or was not used automatically. Attempt the active provider's explicit store or ingest tool first. If it cannot run, name the exact tool and error or policy block. Automatic turn retention is not proof of explicit capture. For Hindsight, verify the asynchronous operation completed or the memory appears in the bank; an immediate empty recall is not proof of failure.",
+      "- Promote stable, reusable, operational, or source-backed knowledge to Memory Wiki. When Jack or the ZedBiz team must review, decide, use, or act on it, also create or update the correct Z-Knowledge Notion record.",
+      "- If asked what Hindsight contains, use provider-native direct recall or listing. An empty knowledge or public-artifact view does not prove the bank is empty.",
+      "- If a person is added to Notion Z-Knowledge People, create or confirm the matching Memory Wiki `entities/` record unless blocked and reported."
+    ],
+    "initial_candidate_sha": "45c9c59f853d2e53e5ed6dc6b7fa68b6712f0121c6a586e9185ca4ab0225b3cd",
+    "deployed_sha": "45c9c59f853d2e53e5ed6dc6b7fa68b6712f0121c6a586e9185ca4ab0225b3cd",
+    "deployed_utf16_chars": 15302,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "harry",
+    "path": "/root/.openclaw-harry/workspace/AGENTS.md",
+    "baseline_sha": "8b9753cad6d501713525d6f856beb89967f2adb4f68f6e9ce4228b81bf1c8769",
+    "old_chars": 17770,
+    "new_chars": 16572,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory discipline",
+      "provider and durable knowledge alignment"
+    ],
+    "retained_special_routes": [
+      "- Do not declare the provider write tool unavailable merely because it is missing from a general retained-knowledge interface or was not used automatically. Attempt the active provider's explicit store or ingest tool first. If it cannot run, name the exact tool and error or policy block. Automatic turn retention is not proof of explicit capture. For Hindsight, verify the asynchronous operation completed or the memory appears in the bank; an immediate empty recall is not proof of failure."
+    ],
+    "initial_candidate_sha": "be71cb471a1d4056fe5304903b889bd75837fe66e2e1dd04a0e8257511775a3a",
+    "deployed_sha": "e216f7ed2e9f3ed4060f2870b929e139c88602f8ee5e506fc35ee18f231c25a1",
+    "deployed_utf16_chars": 16733,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "inga",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "710abaae4107b7c1f9e07e17218baef9a6497db23abf03ff0653c0cef12d5d43",
+    "old_chars": 15753,
+    "new_chars": 14112,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "external-memory boundary and promotion",
+      "provider and durable knowledge alignment",
+      "daily memory rule"
+    ],
+    "retained_special_routes": [
+      "- Update an existing activity memory when practical. Verify the asynchronous write completed or the memory appears in the bank before claiming capture; an immediate empty recall alone does not prove failure.",
+      "- Promote stable, reusable, operational, or source-backed knowledge to the correct reviewed Memory Wiki artifact. When Jack or the ZedBiz team must review, decide on, use, or act from it, also create or update the correct Z-Knowledge Notion record.",
+      "- If Jack says `Z-Knowledge`, route the item to the Notion Z-Knowledge system. Also promote it to Memory Wiki when it is durable agent knowledge."
+    ],
+    "initial_candidate_sha": "0411e95c6dbd58ee1db78cae99efa7f88329c04fd7dece818c6fe62447b779ec",
+    "deployed_sha": "0411e95c6dbd58ee1db78cae99efa7f88329c04fd7dece818c6fe62447b779ec",
+    "deployed_utf16_chars": 14112,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "maggie",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "cb9889a8d95b742ecef3b413c06113fef27524b06451774dbf41dc4dede0ffa1",
+    "old_chars": 18723,
+    "new_chars": 17425,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "hindsight quick recall activity index",
+      "local memory discipline",
+      "provider and durable knowledge alignment",
+      "daily memory rule"
+    ],
+    "retained_special_routes": [
+      "- Do not declare the provider write tool unavailable merely because it is missing from a general retained-knowledge interface or was not used automatically. Attempt the active provider's explicit store or ingest tool first. If it cannot run, name the exact tool and error or policy block. Automatic turn retention is not proof of explicit capture. For Hindsight, verify the asynchronous operation completed or the memory appears in the bank; an immediate empty recall is not proof of failure.",
+      "- An empty knowledge-page or public-artifact view does not prove the Hindsight bank is empty; use direct recall or listing."
+    ],
+    "initial_candidate_sha": "80dd691989c68d3429ade9adf69ce17df5011a08fcc9b2c883ebfddde0d7017a",
+    "deployed_sha": "80dd691989c68d3429ade9adf69ce17df5011a08fcc9b2c883ebfddde0d7017a",
+    "deployed_utf16_chars": 17425,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "marsha",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "428426a57c4f9644dec737b30dc77fce0555c55467ca3fdc3653a4a3ec3cd40c",
+    "old_chars": 20617,
+    "new_chars": 18108,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory",
+      "Quick Recall Activity Index",
+      "provider and durable knowledge alignment"
+    ],
+    "retained_special_routes": [
+      "- Promote stable knowledge to Memory Wiki, GitHub/local Markdown, Notion, or the relevant operating file."
+    ],
+    "initial_candidate_sha": "6cf5ea9da226cccd738f7c3c67d6d7e3b0836012e58ec39721d62f9e0e7a9c51",
+    "deployed_sha": "6cf5ea9da226cccd738f7c3c67d6d7e3b0836012e58ec39721d62f9e0e7a9c51",
+    "deployed_utf16_chars": 18108,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "rocky",
+    "path": "/home/openclaw/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "a503d55a1c0309a8a02f8cea0c5ec1a289d6a93244779700348f12f2c66ffdf6",
+    "old_chars": 16187,
+    "new_chars": 17679,
+    "merged_sections": [],
+    "retained_special_routes": [],
+    "initial_candidate_sha": "7ad86f4095258918a8b3cfbc71ee881e19829a87cb96454edcdeb7d9b155a225",
+    "deployed_sha": "7ad86f4095258918a8b3cfbc71ee881e19829a87cb96454edcdeb7d9b155a225",
+    "deployed_utf16_chars": 17679,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "ruby",
+    "path": "/opt/data/AGENTS.md",
+    "baseline_sha": "9f14932fb8805a03dc0707f15b26569bde279a825c670ca5122571ad7fa9ffdf",
+    "old_chars": 15072,
+    "new_chars": 15717,
+    "merged_sections": [
+      "automatic memory capture standard"
+    ],
+    "retained_special_routes": [],
+    "initial_candidate_sha": "553ed20e79823b63ac3fa3647363f32cbf4c97d4d609c7b2b1d896f26836e9f3",
+    "deployed_sha": "95540a44ba5c3f5841879abb8982416fa398ad8181886033d6c386c212cceb19",
+    "deployed_utf16_chars": 15919,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "suzy",
+    "path": "/root/.openclaw-suzy/workspace/AGENTS.md",
+    "baseline_sha": "569e01993a9461790e89545479cc315f516e8e4b064f01b91a5c0cd2da98107b",
+    "old_chars": 14964,
+    "new_chars": 12818,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "Quick Recall Activity Index",
+      "provider and durable knowledge alignment"
+    ],
+    "retained_special_routes": [],
+    "initial_candidate_sha": "514df5ce42d1be9028149f99f6cd8c10c0a9ee801ec03287397f3a4a8e7ffa33",
+    "deployed_sha": "514df5ce42d1be9028149f99f6cd8c10c0a9ee801ec03287397f3a4a8e7ffa33",
+    "deployed_utf16_chars": 12818,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "terry",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "04e854d3000b7419c274a64862bf632dd6f28579ec87f9de1b823c097793af55",
+    "old_chars": 19918,
+    "new_chars": 19965,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory and continuity"
+    ],
+    "retained_special_routes": [
+      "- Continued Markdown or SQLite growth is not proof of a Mem0 failure. Verify the provider's actual recall or store route."
+    ],
+    "initial_candidate_sha": "562f9fde12dbe5692892e258223cb987ccf8265a688525084443e69e2ae2daba",
+    "deployed_sha": "37c7c819f5ecab51a13ea28140ebae3825dbbbd7fc0895097a9edd60944f7011",
+    "deployed_utf16_chars": 19994,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "victor",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "72ff61a8d56e3b37f82dc29082db2c1be5230aee95d6edae3df20e62e31430a9",
+    "old_chars": 15443,
+    "new_chars": 14578,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory and knowledge discipline",
+      "provider and durable knowledge alignment"
+    ],
+    "retained_special_routes": [
+      "- Do not declare the provider write tool unavailable merely because it is missing from a general retained-knowledge interface or was not used automatically. Attempt the active provider's explicit store or ingest tool first. If it cannot run, name the exact tool and error or policy block. Automatic turn retention is not proof of explicit capture. For Hindsight, verify the asynchronous operation completed or the memory appears in the bank; an immediate empty recall is not proof of failure.",
+      "- Promote stable, reusable, operational, or source-backed knowledge to the correct Memory Wiki artifact. If Jack or the team must review, decide, use, or act from it, also create or update the correct Z-Knowledge Notion record."
+    ],
+    "initial_candidate_sha": "16eb99a4237f4063fe0769ff9b14a60fa1f56e66092e575d37ac7283293862fc",
+    "deployed_sha": "bd85d8bc101040c869786c35c4b3de1e7a1c1c55464c890e6fe7ad1c8ab032d9",
+    "deployed_utf16_chars": 14903,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "vivian",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "5d1c12a04b08d1d83231f3f7edbfdabbb8e0860c8ce30a9ecbeb314477a76b0c",
+    "old_chars": 19282,
+    "new_chars": 18672,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory and continuity",
+      "daily memory rule"
+    ],
+    "retained_special_routes": [
+      "- On the Codex agent runtime, do not assume LanceDB was injected automatically. Before answering about any prior status, decision, approval, preference, previous work, or named ongoing item, use `gateway_exec` to run `openclaw ltm search \"<short task query>\" --limit 5` and inspect the returned records.",
+      "- Verify an authorized provider write with `gateway_exec` and `openclaw ltm search`."
+    ],
+    "initial_candidate_sha": "b6e5b4f01f673188ad01216b47a86dcafcf1fda08fdab6359047df7af87409b7",
+    "deployed_sha": "5df3f7b073958fe7d668889877616890e287fd585365e32f36c604b043a70f01",
+    "deployed_utf16_chars": 18693,
+    "verified_date": "2026-09-27"
+  },
+  {
+    "agent": "wilma",
+    "path": "/home/node/.openclaw/workspace/AGENTS.md",
+    "baseline_sha": "c5e0e558df65077db33d27964804bab708a0546fba549cee4701f3da95183e16",
+    "old_chars": 18427,
+    "new_chars": 18644,
+    "merged_sections": [
+      "automatic memory capture standard",
+      "memory and knowledge boundaries"
+    ],
+    "retained_special_routes": [
+      "- On the Codex agent runtime, do not assume LanceDB was injected automatically. Before answering about any prior status, decision, approval, preference, previous work, or named ongoing item, use `gateway_exec` to run `openclaw ltm search \"<short task query>\" --limit 5` and inspect the returned records.",
+      "- Prefer updates over duplicate activity records; verify provider writes with `gateway_exec` and `openclaw ltm search`.",
+      "- Promote stable reusable knowledge to Memory Wiki. Publish human-facing Z-Knowledge only through the authorized Notion workflow."
+    ],
+    "initial_candidate_sha": "e0076fd5e81adb4985264f928f96c64d0eeac7b60931d02d8f2f7e3a5c441f65",
+    "deployed_sha": "fb9eb903bebf476cac0448f58fbe2fb2fc3ca95848eb5400fb8908421b1a7de7",
+    "deployed_utf16_chars": 18665,
+    "verified_date": "2026-09-27"
+  }
+]
