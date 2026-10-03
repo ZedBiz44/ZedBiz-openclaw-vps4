@@ -25,17 +25,20 @@
   "author": "ZedBiz, based on @roychri/mcp-server-asana",
   "license": "MIT",
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
+    "@tsconfig/node20": "20.1.10",
     "@types/express": "^5.0.3",
-    "@types/jsdom": "^21.1.7",
-    "@types/node": "^22.10.1",
-    "esbuild": "^0.24.0",
-    "typescript": "^5.7.2"
+    "@types/jsdom": "30.0.0",
+    "@types/node": "^24.0.0",
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.30.0",
-    "asana": "^3.0.12",
+    "@modelcontextprotocol/sdk": "1.32.0",
+    "asana": "3.3.0",
     "express": "^5.1.0",
-    "jsdom": "^27.4.0"
+    "jsdom": "30.1.1"
+  },
+  "overrides": {
+    "@babel/cli": "8.0.6"
   }
 }
