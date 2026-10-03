@@ -1,17 +1,28 @@
 --- a/src/commands/doctor-maintenance-state.ts
 +++ b/src/commands/doctor-maintenance-state.ts
-@@ -56,11 +56,10 @@
+@@ -4,6 +4,7 @@
+ import { createUpdateDoctorDatabaseWriteCapture } from "../infra/update-doctor-result.js";
+ import {
+   createOpenClawDatabaseMaintenanceScope,
++  getOpenClawDatabaseMaintenanceScope,
+   type OpenClawDatabaseMaintenanceScope,
+ } from "../state/openclaw-state-db-async-lifecycle.js";
+ import { closeOpenClawStateDatabaseByPathAsync } from "../state/openclaw-state-db-cache.js";
+@@ -56,11 +57,14 @@
          schemaMaintenance: true,
          assertDatabaseAccess: acquired.assertDatabaseAccess,
          assertOwnerCurrent: () => {
 -          acquired.run(() => {
 -            options.assertCurrent?.();
--            options.assertReadCurrent();
--            acquired.assertCurrent();
--          });
 +          acquired.run(() => options.assertCurrent?.());
 +          // Keep policy reads in the scope owning Doctor's native database.
-+          options.assertReadCurrent();
++          if (getOpenClawDatabaseMaintenanceScope() === resources) {
+             options.assertReadCurrent();
+-            acquired.assertCurrent();
+-          });
++          } else {
++            acquired.run(() => options.assertReadCurrent());
++          }
 +          acquired.run(() => acquired.assertCurrent());
          },
        });
