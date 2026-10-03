@@ -1,0 +1,17 @@
+{
+  "name": "@zedbiz/z-gemini-video-mcp",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "ZedBiz Gemini analysis of public YouTube videos and authorized video/audio files.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@google/genai": "2.27.0",
+    "@modelcontextprotocol/sdk": "1.32.0",
+    "zod": "4.6.5"
+  }
+}
