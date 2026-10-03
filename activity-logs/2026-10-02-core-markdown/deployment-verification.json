@@ -1,0 +1,137 @@
+{
+  "date": "2026-10-02 America/Edmonton",
+  "operator": "Cody",
+  "status": "Deployed and verified",
+  "scope": "Approved core Markdown corrections; current Registry identity retained",
+  "checks": [
+    "Fresh live baseline hashes matched immediately before writes.",
+    "Timestamped backup outside workspace; original ownership and mode preserved.",
+    "GohZed pilot completed before other deployments.",
+    "Exact live hashes and all four Registry fields verified on every target.",
+    "Installed loaders reported no truncation warnings.",
+    "Fresh behavioral acceptance answers reviewed for role, approval, source routing, email trigger, no arbitrary cutoff, tail behavior and role-specific safeguard.",
+    "No model, provider, bank, runtime limit, schedule or service change. No restart."
+  ],
+  "limitations": [
+    "Behavioral tests are evidence of sampled rules, not proof of every future response.",
+    "Native Codex AGENTS injection metadata was absent; direct installed-loader tests plus tail-rule behavior are reported instead of a fabricated truncated=false.",
+    "OpenClaw receipts show zero successful tool calls; Ruby CLI output does not provide the same machine-readable tool receipt.",
+    "Memory recall/write integrations were not exercised; tests verified instruction selection and file loading. Ruby curated memory remains within its existing cap with 119 characters of headroom."
+  ],
+  "attempts": [
+    "Ruby has no Docker HEALTHCHECK; verified running state and public API status HTTP 200 instead.",
+    "Hermes user could not create a backup under the protected backups directory. A narrowly scoped root file operation created the backup and preserved UID/GID 10000 and mode 0644; tests ran as hermes.",
+    "Local Python output encoding was made UTF-8 for the analyzer. No runtime package installed."
+  ],
+  "agents": [
+    {
+      "agent": "rocky",
+      "files": [
+        {
+          "agent": "rocky",
+          "file": "AGENTS.md",
+          "livePath": "/home/openclaw/.openclaw/workspace/AGENTS.md",
+          "baselineHash": "904ff108f218421216d8fced1092453b462e83be515e3ce6c0fd67afc5fd899a",
+          "candidateHash": "8ad22ee32750cdfa3e9bed59591a5f2920028cd5f20b6ba0458670177e949a08",
+          "uid": 1000,
+          "gid": 1000,
+          "mode": "644",
+          "beforeBytes": 13933,
+          "afterBytes": 13916,
+          "beforeChars": 13933,
+          "afterChars": 13914,
+          "beforeLines": 134,
+          "afterLines": 134
+        }
+      ],
+      "backup": "/home/openclaw/.openclaw/backups/core-markdown-20261003T005443Z",
+      "healthBefore": "NRestarts=0\nExecMainStartTimestamp=Fri 2026-10-02 16:52:57 MDT\nActiveState=active\nSubState=running",
+      "healthAfter": "NRestarts=0\nExecMainStartTimestamp=Fri 2026-10-02 16:52:57 MDT\nActiveState=active\nSubState=running",
+      "session": "rocky-core-fix-20261003-005656",
+      "answer": "{\"identity\":{\"agent_title\":\"AI Enforcer\",\"official_title\":\"VA Coach\",\"role\":\"ZedBiz VA guide, assistant, mentor, and productivity coach\",\"personality\":\"Direct, positive, hard-working, practical, tough-love Relentless Realist\",\"responsibilities\":\"Keep marketing and Asana tasks moving, improve VA effectiveness, clarify difficult work, protect quality, and connect execution to revenue, service, productivity, or asset creation.\"},\"ownership\":\"Report to Amanda for VA/Asana flow, Marsha for broader operations, and Jack Zenert as final authority. Ask before publishing or sending externally, spending, destructive or irreversible actions, production or permission changes, client commitments, or Asana structure/ownership/due-date changes unless Jack explicitly authorized the exact action.\",\"diagnose\":\"Diagnosis-only authorizes investigation, evidence gathering, explanation, and a recommended solution. It does not authorize implementation; follow Diagnose -> Solution -> Confirmation -> Act.\",\"source_route\":\"Code and technical history belong in GitHub or verified local Markdown. SOPs and prompts belong in Notion only.\",\"email\":\"No. An Asana reminder does not start work. Only a newly assigned Rocky task identified through an email from no-reply@asana.com triggers work after identity and task verification.\",\"continuity\":\"No. Elapsed time alone never stops healthy authorized work; continue until completion, Jack stops it, or a concrete error or missing authority blocks progress.\",\"final_rule\":\"Never print credentials.\",\"specific\":{\"memory_provider\":\"Hindsight in Rocky's existing bank\",\"repair_server\":false,\"grant_access\":false,\"write_read_only_knowledge_wiki\":false}}",
+      "loader": {
+        "agent": "rocky",
+        "workspace": "/home/openclaw/.openclaw/workspace",
+        "version": "2026.9.7",
+        "limits": {
+          "file": 20000,
+          "total": 60000,
+          "user": 4000
+        },
+        "files": [
+          {
+            "name": "AGENTS.md",
+            "missing": false,
+            "rawChars": 13914,
+            "boundedChars": 13913,
+            "readable": true
+          },
+          {
+            "name": "SOUL.md",
+            "missing": false,
+            "rawChars": 2374,
+            "boundedChars": 2374,
+            "readable": true
+          },
+          {
+            "name": "IDENTITY.md",
+            "missing": false,
+            "rawChars": 6835,
+            "boundedChars": 6834,
+            "readable": true
+          },
+          {
+            "name": "USER.md",
+            "missing": false,
+            "rawChars": 2429,
+            "boundedChars": 2428,
+            "readable": true
+          },
+          {
+            "name": "BOOTSTRAP.md",
+            "missing": true,
+            "boundedChars": 70,
+            "readable": true
+          },
+          {
+            "name": "MEMORY.md",
+            "missing": false,
+            "rawChars": 3218,
+            "boundedChars": 3217,
+            "readable": true
+          }
+        ],
+        "warnings": []
+      },
+      "final": {
+        "agent": "rocky",
+        "files": [
+          {
+            "path": "/home/openclaw/.openclaw/workspace/AGENTS.md",
+            "sha256": "8ad22ee32750cdfa3e9bed59591a5f2920028cd5f20b6ba0458670177e949a08",
+            "chars": 13914
+          },
+          {
+            "path": "/home/openclaw/.openclaw/workspace/SOUL.md",
+            "sha256": "8df0fbdd677784d380a6f8419d7024609e1c4535e3b73fc2019856bc2209a6df",
+            "chars": 2374
+          },
+          {
+            "path": "/home/openclaw/.openclaw/workspace/IDENTITY.md",
+            "sha256": "3a9de18fd58aeb7c28cdb705c60d822bac21316d4174bf72eff84618d6dc1526",
+            "chars": 6835
+          },
+          {
+            "path": "/home/openclaw/.openclaw/workspace/USER.md",
+            "sha256": "00f6caa730febd5d58c49c44c0254ded3d3d0613aba8cd73cb8ebe13d7fca6ac",
+            "chars": 2429
+          }
+        ],
+        "registryFields": 4,
+        "match": true,
+        "health": "NRestarts=0\nExecMainStartTimestamp=Fri 2026-10-02 16:52:57 MDT\nActiveState=active\nSubState=running"
+      },
+      "rollbackNeeded": false
+    }
+  ]
+}
