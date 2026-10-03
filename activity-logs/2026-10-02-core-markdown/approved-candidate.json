@@ -1,0 +1,200 @@
+{
+  "date": "2026-10-02",
+  "operator": "Cody",
+  "status": "Approved candidate; pilot pending",
+  "authorization": "Jack: ok, then lets get all your updates done. Includes pilot and fleet rollout after verification.",
+  "pilot": "gohzed",
+  "registrySource": "Notion Agent Registry collection://936ca870-6655-4987-b2f1-b7bd9fb8d08b",
+  "scope": "Core file corrections only. No provider, bank, model, service, schedule, memory data or permission-policy changes.",
+  "findingsCorrections": [
+    "Copied Amanda sentence affects 14 other agents; Rocky does not contain it.",
+    "Terry current AGENTS permits native Notion route; TOOLS now defers to it.",
+    "Inga Official Title retained exactly as Registry: Online Marketing Marketing."
+  ],
+  "registryAlignment": [
+    {
+      "url": "https://app.notion.com/3c6a3e33d581814bb021cd4957436c52",
+      "Agent-Name": "Rocky",
+      "Agent-Title": "AI Enforcer",
+      "Official-Title": "VA Coach",
+      "Agent-Role": "Positive- Hard Working - Keeps Marketing Tasks Moving Along",
+      "Agent-Role-Summary": "Assist Virtual Assistants in all ZedBiz operations and governed integrations. Does Video guidance, Graphic creation, marketing tactics and more. Reports to Amanda for VA/Asana flow and to Marsha for operations; Jack is final authority. No server repairs, credential resets, access grants, or identity borrowing — technical faults go to Jack or a technical agent."
+    }
+  ],
+  "files": [
+    {
+      "agent": "rocky",
+      "file": "AGENTS.md",
+      "livePath": "/home/openclaw/.openclaw/workspace/AGENTS.md",
+      "baselineHash": "904ff108f218421216d8fced1092453b462e83be515e3ce6c0fd67afc5fd899a",
+      "candidateHash": "8ad22ee32750cdfa3e9bed59591a5f2920028cd5f20b6ba0458670177e949a08",
+      "uid": 1000,
+      "gid": 1000,
+      "mode": "644",
+      "beforeBytes": 13933,
+      "afterBytes": 13916,
+      "beforeChars": 13933,
+      "afterChars": 13914,
+      "beforeLines": 134,
+      "afterLines": 134
+    }
+  ],
+  "preservation": {
+    "ruleGroups": [
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "# Rocky Operating Instructions",
+        "classification": "Retain",
+        "baselineSectionHash": "d0580e402514130be06b45f2f6b364b6e6232af4828362a2ccf29b0e7d61474c",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Memory Retention and Recall",
+        "classification": "Merge/Compress/Retire as detailed in exact diff",
+        "baselineSectionHash": "86bd0bedc998dcbde1dd961c52712d5e269c0f6c84a4f10e556c8813ce24682d",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Daily Journal and Technical Records",
+        "classification": "Retain",
+        "baselineSectionHash": "edb091f05982cb2cffdefbd0857d298200031a7c7292d18b4aa24566fab3d72f",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Purpose And Authority",
+        "classification": "Retain",
+        "baselineSectionHash": "350f3450a56b6c8301d6525ce16297eef03c06badc6687de92d2111528ea827a",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Role-Specific Rules",
+        "classification": "Retain",
+        "baselineSectionHash": "cb624d785f31277093adabe6c4a15acd5db0c2698494868cb794c4f0b570faa7",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Operating Modes",
+        "classification": "Retain",
+        "baselineSectionHash": "0d1f7f824fbbd4bd96d8e51a5740d7116a1e548f2c24eab70219e420b69fb8e2",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## No Arbitrary Work Cutoffs",
+        "classification": "Retain",
+        "baselineSectionHash": "b972454e4482264b43aa9a9ac437d0e0e339b884492415571260871df3faea43",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Assignment and Communication",
+        "classification": "Retain",
+        "baselineSectionHash": "52844385c8c750a2aac5d33ccb8cf0bf6cdbdcf0484c29ac2785688f87bcf3ca",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Creative And Media Work",
+        "classification": "Retain",
+        "baselineSectionHash": "817a7c5a23476a485996d22d897492795de6570abb33b46eaf5cc2b104552776",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Browser And Screenshot Delivery",
+        "classification": "Retain",
+        "baselineSectionHash": "433cd6aa79f7f5306aa56e8b49fbeba40e54c1578a0f436f6adc13ba9227f322",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Routing, Sources, and Technical Handoffs",
+        "classification": "Retain",
+        "baselineSectionHash": "84936fe34e8d5429d45b31cc431074c0e9f75e72d26f55158c53533a37b45fc3",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Startup, Skills, and Tools",
+        "classification": "Retain",
+        "baselineSectionHash": "919a770a2b1ab72ab2e0c6eb9d3c17977964e4fd7c4b2f48ed8b5645d8690081",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Asana and Notion",
+        "classification": "Retain",
+        "baselineSectionHash": "9bc66848d3db0f0f4127e8d0efdd06b84faa9ca8b15210ea16368c70e79d6060",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Knowledge and Memory",
+        "classification": "Retain",
+        "baselineSectionHash": "c5b6692b1e3900354a1b6efa514b9d398d3994c3631c6eeacbc641d0e38fc109",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Execution, Security, Completion, and Maintenance",
+        "classification": "Retain",
+        "baselineSectionHash": "283706e16f89c47d25bc1cc7a5bb14dda0772c5598c1b35ead128ff1684ae75b",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Approved Email Work Trigger",
+        "classification": "Retain",
+        "baselineSectionHash": "96ac300bd36d3e0c03919cb0e8e9c56b7eda3f14c98fd09c36974e43839857d3",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Tools",
+        "classification": "Retain",
+        "baselineSectionHash": "e356b5ec8cfcc176a1e563437a6e09bd4df9f07d4aa943d3ac5a8036606e519f",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      },
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "section": "## Verified native GitHub authentication",
+        "classification": "Retain",
+        "baselineSectionHash": "439f4b2a2bdd1315b98b3fc3578fc2831b921ea4987dd6ad5be60db6baa223c2",
+        "reason": "All text outside the reviewed diff remains byte-for-byte intact."
+      }
+    ],
+    "exactEdits": [
+      {
+        "agent": "rocky",
+        "file": "AGENTS.md",
+        "classification": "Retire",
+        "reason": "Live primary memory slot is hindsight-openclaw; remove incorrect LanceDB routing.",
+        "before": "- Keep LanceDB auto-capture and recall on. Use `memory_recall` and `memory_store`; main-session CLI fallback is `openclaw ltm search \"<query>\" --agent main --limit 5`. The owner is the runtime agent ID, not a human name. Split long entries by subject and retain source and date.",
+        "after": "- Keep Hindsight capture/recall on; use available recall/ingest tools in this agent’s existing bank. Never use LanceDB or `openclaw ltm`. Split long entries by subject, retain source/date, and verify completed writes. Do not change providers, banks or access."
+      }
+    ]
+  }
+}
