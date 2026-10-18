@@ -70,7 +70,7 @@ Pre-update Gateway RSS was 2,123,382,784 bytes (about 2025 MiB). The post-restar
 
 Channel connectivity was verified; no external test messages sent. No explicit memory writes, integration mutations or paid generation were tested. Hindsight backend capacity and longer-term memory growth were not benchmarked.
 
-The redundant SCP copy to the local workstation was still completing during closeout. Automatic approval review blocked cancellation/deletion; no workaround was attempted. The independently verified Drive archive is the accepted off-host recovery copy.
+The redundant SCP copy to the local workstation finished during closeout at 7,018,879,122 bytes and passed the same SHA-256 check as the server ciphertext. Automatic approval review had blocked cancellation/deletion; the transfer was left alone and the completed copy is retained as an additional verified recovery archive. The independent private Drive copy also remains verified.
 
 SOPs were edited only in Notion and fetched again: main VPS4 SOP, Phase 5 governance, native updates, component lifecycle and Google/GOG connection summary. Added practical recovery, actual runtime verification, third-party pin checks and GOG launcher preservation. Agent Registry, service and deployment records updated/read back.
 
