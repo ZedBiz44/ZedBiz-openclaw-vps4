@@ -1,0 +1,42 @@
+{
+  "secrets": {
+    "providers": {
+      "onepassword_embedding": {
+        "source": "exec",
+        "command": "/home/openclaw/.local/secure-bin/op",
+        "args": [
+          "read",
+          "op://openclaw-agents-shared/openai-embedding-key/credential"
+        ],
+        "timeoutMs": 15000,
+        "jsonOnly": false,
+        "passEnv": [
+          "HOME",
+          "OP_SERVICE_ACCOUNT_TOKEN"
+        ],
+        "trustedDirs": [
+          "/home/openclaw/.local/secure-bin"
+        ]
+      }
+    }
+  },
+  "agents": {
+    "entries": {
+      "main": {
+        "memory": {
+          "search": {
+            "provider": "openai",
+            "model": "text-embedding-3-small",
+            "remote": {
+              "apiKey": {
+                "source": "exec",
+                "provider": "onepassword_embedding",
+                "id": "value"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
