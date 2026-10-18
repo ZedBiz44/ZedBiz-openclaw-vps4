@@ -70,7 +70,12 @@ elif action=='compare':
     assert before==after,'Custom skill drift'
     for tree in ['bin','.config/systemd']:
         for p in (B/'extracted/home/openclaw'/tree).rglob('*'):
-            if p.is_file():assert p.read_bytes()==(Path('/home/openclaw')/p.relative_to(B/'extracted/home/openclaw')).read_bytes(),'Launcher/service drift'
+            if p.is_file():
+                target=Path('/home/openclaw')/p.relative_to(B/'extracted/home/openclaw')
+                if target==Path('/home/openclaw/bin/gog') and (B/'gog-repair.json').exists():
+                    receipt=json.loads((B/'gog-repair.json').read_text())
+                    assert sha(p)==receipt['binarySha256'] and sha(target)==receipt['wrapperSha256']
+                else:assert p.read_bytes()==target.read_bytes(),'Launcher/service drift'
     r={'preservationPassed':True,'customSkillFiles':len(before)}
     (B/'preservation.json').write_text(json.dumps(r));emit(r)
 elif action=='accept':
