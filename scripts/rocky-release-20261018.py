@@ -1,5 +1,5 @@
 """Protected native Rocky maintenance stages; no secret output."""
-import os, sys, json, subprocess, hashlib, sqlite3, time
+import os, sys, json, subprocess, hashlib, sqlite3, time, urllib.request
 from pathlib import Path
 B=Path('/var/backups/rocky-20261018')
 S=Path('/home/openclaw/.openclaw')
@@ -51,5 +51,62 @@ elif action=='update':
     cli('update',['update','--tag','2026.10.4','--yes','--no-restart','--json'],3600)
 elif action=='cli':
     cli(sys.argv[2],sys.argv[3:],900)
+elif action=='compare':
+    old=B/'extracted/home/openclaw/.openclaw'
+    a=json.loads((old/'openclaw.json').read_text());c=json.loads((S/'openclaw.json').read_text())
+    for k in ['model','models','modelPolicy','thinkingDefault','timeoutSeconds']:
+        assert a['agents']['defaults'].get(k)==c['agents']['defaults'].get(k),'Model policy drift: '+k
+    for k in ['tools','channels','mcp','secrets']:
+        assert a.get(k)==c.get(k),'Access/configuration drift: '+k
+    assert a.get('gateway',{}).get('auth')==c.get('gateway',{}).get('auth')
+    assert c.get('gateway',{}).get('bind')=='loopback'
+    assert a['plugins']['slots']==c['plugins']['slots']
+    memory=a['plugins']['slots']['memory']
+    assert a['plugins']['entries'][memory]==c['plugins']['entries'][memory]
+    for f in ['AGENTS.md','SOUL.md','USER.md','IDENTITY.md']:
+        assert (old/'workspace'/f).read_bytes()==(S/'workspace'/f).read_bytes(),'Instruction drift: '+f
+    before={str(p.relative_to(old/'workspace/skills')):sha(p) for p in (old/'workspace/skills').rglob('*') if p.is_file()}
+    after={str(p.relative_to(S/'workspace/skills')):sha(p) for p in (S/'workspace/skills').rglob('*') if p.is_file()}
+    assert before==after,'Custom skill drift'
+    for tree in ['bin','.config/systemd']:
+        for p in (B/'extracted/home/openclaw'/tree).rglob('*'):
+            if p.is_file():assert p.read_bytes()==(Path('/home/openclaw')/p.relative_to(B/'extracted/home/openclaw')).read_bytes(),'Launcher/service drift'
+    r={'preservationPassed':True,'customSkillFiles':len(before)}
+    (B/'preservation.json').write_text(json.dumps(r));emit(r)
+elif action=='accept':
+    deadline=time.monotonic()+420
+    while True:
+        try:
+            if urllib.request.urlopen('http://127.0.0.1:18789/healthz',timeout=5).status==200:break
+        except Exception:pass
+        assert time.monotonic()<deadline,'HTTP readiness deadline exceeded'
+        time.sleep(5)
+    deadline=time.monotonic()+120
+    while True:
+        health=obj(cli('health-after',['gateway','call','health','--json']))
+        old=json.loads((B/'health-before.json').read_text());pending=[]
+        for channel,d in old.get('channels',{}).items():
+            for account,v in d.get('accounts',{}).items():
+                now=health.get('channels',{}).get(channel,{}).get('accounts',{}).get(account,{})
+                for field in ['running','connected']:
+                    if v.get(field) is True and now.get(field) is not True:pending.append(channel+'/'+field)
+        if not pending:break
+        assert time.monotonic()<deadline,'Channel readiness deadline exceeded'
+        time.sleep(5)
+    cron=obj(cli('cron-after',['gateway','call','cron.list','--params','{"includeDisabled":true}','--json']))
+    keys=['id','name','enabled','schedule','sessionTarget','wakeMode','payload','delivery']
+    norm=lambda o:sorted([{k:j.get(k) for k in keys} for j in o['jobs']],key=lambda j:j['id'])
+    assert norm(cron)==norm(json.loads((B/'cron-before.json').read_text()))
+    prompt='Read-only upgrade acceptance. Use agent_knowledge_recall explicitly to recall one existing ZedBiz memory from your configured Hindsight backend, not local Markdown. Get your own Asana user identity and fetch Notion page 371a3e33d5818357872d0198ecade27d. Check availability of gog, himalaya, ffmpeg and gh with a harmless shell command. Return memory tool and short fact, Asana name/GID, Notion title, binary availability and any failure. Do not send messages, create tasks, change files, write memories, run paid generation or delegate.'
+    result=obj(cli('capability',['agent','--agent','main','--session-key','agent:main:cody-vps4-10-4-acceptance','--message',prompt,'--timeout','240','--json'],300))
+    receipt=result.get('result',{}).get('meta',{}).get('agentMeta',{}).get('terminalReceipt',{})
+    assert receipt.get('rerouted') is False and receipt['effective']['model']=='gpt-6.1-sol'
+    names=receipt.get('successfulToolNames',[])
+    assert any('agent_knowledge_recall' in n for n in names) and any('asana' in n and 'user' in n for n in names) and any('notion' in n for n in names)
+    r={'accepted':True,'cronCount':len(cron['jobs']),'receipt':receipt,'payloads':result['result'].get('payloads'),'channels':{k:{a:{f:v.get(f) for f in ['running','connected','lastError']} for a,v in d.get('accounts',{}).items()} for k,d in health.get('channels',{}).items()}}
+    (B/'acceptance.json').write_text(json.dumps(r,indent=2));emit(r)
+elif action=='skills':
+    o=obj(cli('skills-after',['skills','check','--agent','main','--json']))
+    (B/'skills-after.json').write_text(json.dumps(o,indent=2));emit({'summary':o.get('summary'),'missingRequirements':o.get('missingRequirements')})
 else:raise ValueError(action)
 
