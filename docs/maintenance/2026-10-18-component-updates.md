@@ -22,3 +22,5 @@ The Asana deployment initially inherited restrictive staging permissions on depe
 OpenClaw reports `provenance-invalid` for the Hindsight npm install, as it did before this update. Official reinstall did not clear it. Automatic hooks are proven; trusted native memory capabilities are not claimed. No trust database bypass or broadened bank access was performed.
 
 The earlier CLI-only Asana attempt used mcporter, which is separate from OpenClaw's native MCP configuration. The authoritative connectivity proof is the successful native `asana.asana_get_user` call after the permission repair.
+
+GitHub CLI was subsequently updated to 2.102.0 from the checksum-verified official Debian package. Rocky's actual version check and `gh api repos/cli/cli` read passed. Himalaya was already 2.2.1. The additional local encrypted runtime backup copy also passed SHA-256 verification (`5ac99035b9d5787f6b20a7a2831cf431826e341945ed205a38f44a6a014ebb2d`); the verified private Drive copy remains available. Isolated Hindsight restore-test containers and network were removed after successful validation, while recovery archives were retained.
